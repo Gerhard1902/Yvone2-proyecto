@@ -1,0 +1,19 @@
+.content{
+	text-align: center;
+	padding-top: 72px;
+	background-color: white;
+	height: 100%;
+	width: 80%;
+	margin-left: 10%;
+}
+.h{
+	height: 100%;
+}
+@media(max-width:601px){
+	.content{
+	
+	margin-left: 0%;
+	width:120%
+	
+	}
+}
