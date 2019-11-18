@@ -1,11 +1,11 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import './NavigationItem.css';
 
 const navigationItem =(props)=>(
 
 	<li className='NavigationItem'>
-        <Link href={props.link} >{props.children}</Link>
+        <NavLink to={{pathname: "/"+props.link}} >{props.children}</NavLink>
     </li>
 
 );
