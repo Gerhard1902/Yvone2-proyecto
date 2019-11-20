@@ -38,7 +38,7 @@
     border-radius: 10px;
     margin-top:100px;
     align-self: flex-end;
-
+    width:300px;
 }
 
 
@@ -82,7 +82,7 @@ button:hover{
 }
 
 
-@media(max-width:601px){
+@media(max-width:650px){
     .layout{
         font-size: 20px;
         width:80%;

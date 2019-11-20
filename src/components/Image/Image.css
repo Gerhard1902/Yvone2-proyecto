@@ -82,7 +82,7 @@ button:hover{
 }
 
 
-@media(max-width:601px){
+@media(max-width:650px){
     .layout{
         font-size: 20px;
         width:80%;
@@ -117,7 +117,7 @@ button:hover{
     }
     .ok{
 
-        margin-top:40px;
+        margin-top:70px;
     }
     
 }

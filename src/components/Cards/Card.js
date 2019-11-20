@@ -5,7 +5,7 @@ const card =(props)=>(
 	<div className="container">
         <img src={props.imagen} className="imag"></img>
         <div className="theRest">
-            <p className="title">Título</p>
+            <p className="title">{props.name}</p>
             <p className="texts">Categoría</p>
             <p className="texts">Precio</p>     
         </div>

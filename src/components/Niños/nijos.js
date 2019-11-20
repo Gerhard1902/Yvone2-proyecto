@@ -1,15 +1,65 @@
 import React, {Component} from 'react';
 import Regalo from '../../assets/bear.jpg';
 import Image from '../Image2/Image';
-import Card from '../Cards/Card';
+import Card from '../Cards2/Card';
 import Modal from '../UI/Modal/Modal';
 import Button from '../UI/Button/Button';
+import NiñoE from '../Especificos/Niño/NiñoE';
 import "./niños.css";
+import axios from '../../axios-petition';
+import Spinner from '../UI/Spinner/Spinner';
+import withErrorHandler from '../withErrorHandler/withErrorHandler';
+
 class Niño extends Component{
     state={
         modalOpened:false,
+        loading:false,
+        error:false,
+        completed:false,
+        selectedPostId:null,
+        posts:[{
+            nombre: "Kevin Barrera",
+            status:false,
+            calle:"Felipe Ángeles",
+            número:202,
+            colonia: "Zempoala",
+            genero: false,
+            fechaNacimiento:"1997-10-27"
+        },{
+            nombre: "Kevin Barrera",
+            status:false,
+            calle:"Felipe Ángeles",
+            número:202,
+            colonia: "Zempoala",
+            genero: false,
+            fechaNacimiento:"1997-10-27"
+        },]
+        
+        ,
+        niño:{
+            nombre: "Kevin Barrera",
+            status:false,
+            calle:"Felipe Ángeles",
+            número:202,
+            colonia: "Zempoala",
+            genero: false,
+            fechaNacimiento:"1997-10-27"
+        },
+        
     }
 
+    componentDidMount(){
+       /* axios.get('https://christmas-api.firebaseio.com/ninos.json')
+        .then(response=>{
+            this.setState({posts:response.data});
+            console.log(response.data);
+            console.log("el estado");
+            console.log(this.state.posts);
+            
+        })
+        .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));*/
+        console.log(this.state.posts);
+    }
     modalOpened=()=>{
         this.setState({modalOpened:true});
         console.log("reached");
@@ -18,7 +68,32 @@ class Niño extends Component{
 		this.setState({modalOpened:false});
     }
 
+    modalClosed3=()=>{
+		this.setState({completed:false});
+    }
+    submitHandler=()=>{
+        this.setState({loading:true});
+        const niño={
+            nombre: "Kevin Barrera",
+            status:false,
+            calle:"Felipe Ángeles",
+            número:202,
+            colonia: "Zempoala",
+            genero: false,
+            fechaNacimiento:"1997-10-27"
+        }
+        axios.post('/ninos.json', niño)     //Hay que modificar la ruta para el servidor
+            .then(this.setState({loading:false, modalOpened:false, completed:true}))
+            .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));        
+    }
+    postClickedHandler=(id)=>{
+        this.setState({selectedPostId:id});
+    }
+
     render(){
+        
+        
+        
         let x=(
             <div>
                 <p className="niño">Agregar niño</p>
@@ -43,31 +118,43 @@ class Niño extends Component{
                             <span class="slider round"></span>
                         </label>
                         <p className="textt">malo</p>
-                    </div>
-                   
+                    </div>   
                </div>
                <div className="col">
-                   <Button text="Cancelar"/>
-                   <Button text="Aceptar"/>
-
+                   <Button text="Cancelar" clicked={this.modalClosed}/>
+                   <Button text="Aceptar" clicked={this.submitHandler}/>
                </div>
-             
             </div>
         );
-
+        if (this.state.loading){
+            x=<Spinner/>;
+        }
+        const posts= this.state.posts.map(a=>{
+            return <Card imagen={Image} name={a.nombre} calle={a.calle} 
+                         numero={a.número} colonia={a.colonia} 
+                         fechaNacimiento={a.fechaNacimiento} clicked2={()=>this.postClickedHandler("-Lu-kdwoBRXAt_KjEHF5") } //Debería ir post.id, está hard-coded, pero obtiene datos del backend
+        />});    
+        
 
         return(
             <div>
                 <Image link={Regalo} click={this.modalOpened} text="Lista de niños buenos y malos" />
-                <Card imagen={Regalo}></Card>
+           <div className="otro">
+             {posts}
+           </div>
+            
                 <Modal show={this.state.modalOpened} modalClosed={this.modalClosed}>
-				{x}
-			</Modal>
-            <button onClick={this.modalOpened}>ok</button>
+				    {x}
+		    	</Modal>
+                <Modal show={this.state.completed} modalClosed={this.modalClosed3}>
+				    <div>
+                        Petition completed!
+                    </div>
+		    	</Modal>
             </div>
             
         );
     }
 }
 
-export default Niño;
+export default withErrorHandler(Niño, axios);

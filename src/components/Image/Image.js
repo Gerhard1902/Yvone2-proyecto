@@ -9,7 +9,7 @@ const image =(props)=>(
         <div className="layout">
             <p className="text">{props.text}</p>
             <div>
-                <button className="bbuton">{props.button}</button>
+                <button className="bbuton" onClick={props.click2}>{props.button}</button>
                 <button className="bbuton2" onClick={props.click}>+</button>
             </div>
         </div>

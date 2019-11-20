@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import Regalo from '../../assets/santa.jpg';
+import Regalo from '../../assets/regalo2.jpg';
 import Image from '../Image2/Image';
 import Card from '../Cards/Card';
 import Modal from '../UI/Modal/Modal';
 import Button from '../UI/Button/Button';
 
-class Usuarios extends Component{
+class Categoria extends Component{
     state={
         modalOpened:false,
     }
@@ -21,15 +21,17 @@ class Usuarios extends Component{
         alert("submitted");
 		this.setState({modalOpened:false});
     }
+    ContinueHandler=()=>{
+    this.props.history.push({
+        pathname:'/categorias',
+    });
+}
     render(){
         let x=(
             <div>
                 
-                <p className="niño">Agregar Usuario</p>
-                <button class="dropbtn">Seleccionar foto de perfil</button>
-                <input placeholder="Nombre Completo" className="data"></input>
-                <input placeholder="Password" className="data"></input>
-                <input placeholder="Confirmar Password" className="data"></input>
+                <p className="niño">Nueva Categoría</p>
+                <input placeholder="Nombre" className="data"></input>
                 <div className="col">
                    <Button text="Cancelar" clicked={this.modalClosed}/>
                    <Button text="Aceptar" clicked={this.submitHandler}/>
@@ -39,13 +41,16 @@ class Usuarios extends Component{
         );
         return(
             <div>
-                <Image link={Regalo} click={this.modalOpened}  text="Lista de usuarios"/>
-                <Card imagen={Regalo}></Card>
-                <Modal show={this.state.modalOpened} modalClosed={this.modalClosed}>
-				    {x}
-		    	</Modal>
-           </div>
+        <Image link={Regalo} text="Categorías" click={this.modalOpened} click2={this.ContinueHandler} button="Categorías"/>
+        <Card imagen={Regalo}></Card>
+        <Modal show={this.state.modalOpened} modalClosed={this.modalClosed}>
+		    {x}
+		</Modal>
+    </div>
         );
     }
 }
-export default Usuarios;
+
+
+
+export default Categoria;
