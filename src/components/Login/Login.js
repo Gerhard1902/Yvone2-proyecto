@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
 import './Login.css';
 import axios from 'axios';
+import Cookies from 'universal-cookie';
 import Santa from '../../assets/circle_santa-512.png';
+
+const cookies = new Cookies();
 
 class Login extends Component{
 
@@ -16,7 +19,6 @@ class Login extends Component{
       this.ContinueHandler = this.ContinueHandler.bind(this);
     }
 
-
     handleUserChange(event) {
       this.setState({user: event.target.value});
     }
@@ -25,14 +27,13 @@ class Login extends Component{
         this.setState({password: event.target.value});
       }
 
-    ContinueHandler(event){        
+    ContinueHandler(event){
 
       axios.post('https://api-mongod.herokuapp.com/empleados/login', {
           nombre: this.state.user,
           password: this.state.password,
       }).then(res => {
-        console.log(res);
-        console.log(res.data.accessToken);
+        cookies.set('accessToken', res.data.accessToken, { path: '/' });
         window.open('/dashboard', "_self");
       })
       .catch((error) => {
