@@ -18,6 +18,7 @@ class Niño extends Component{
         completed:false,
         selectedPostId:null,
         posts:[{
+            id:"5dd5a4abf4b0c800174ea64b",
             nombre: "Kevin Barrera",
             status:false,
             calle:"Felipe Ángeles",
@@ -26,6 +27,7 @@ class Niño extends Component{
             genero: false,
             fechaNacimiento:"1997-10-27"
         },{
+            id:"5dd5a525209a5b00171226a5",
             nombre: "Kevin Barrera",
             status:false,
             calle:"Felipe Ángeles",
@@ -49,15 +51,16 @@ class Niño extends Component{
     }
 
     componentDidMount(){
-       /* axios.get('https://christmas-api.firebaseio.com/ninos.json')
+       axios.get('https://api-mongod.herokuapp.com/ninos')
         .then(response=>{
-            this.setState({posts:response.data});
+            this.setState({posts:response.data.result});
             console.log(response.data);
             console.log("el estado");
             console.log(this.state.posts);
+            console.log(this.state.posts.result);
             
         })
-        .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));*/
+        .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
         console.log(this.state.posts);
     }
     modalOpened=()=>{
@@ -87,7 +90,7 @@ class Niño extends Component{
             .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));        
     }
     postClickedHandler=(id)=>{
-        this.setState({selectedPostId:id});
+        alert(id);
     }
 
     render(){
@@ -133,7 +136,7 @@ class Niño extends Component{
             return <Card imagen={Image} name={a.nombre} calle={a.calle} 
                          numero={a.número} colonia={a.colonia} 
                          fechaNacimiento={a.fechaNacimiento} clicked2={()=>this.postClickedHandler("-Lu-kdwoBRXAt_KjEHF5") } //Debería ir post.id, está hard-coded, pero obtiene datos del backend
-        />});    
+        />});   
         
 
         return(
