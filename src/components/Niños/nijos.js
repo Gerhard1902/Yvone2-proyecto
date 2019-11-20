@@ -17,25 +17,7 @@ class Niño extends Component{
         error:false,
         completed:false,
         selectedPostId:null,
-        posts:[{
-            id:"5dd5a4abf4b0c800174ea64b",
-            nombre: "Kevin Barrera",
-            status:false,
-            calle:"Felipe Ángeles",
-            número:202,
-            colonia: "Zempoala",
-            genero: false,
-            fechaNacimiento:"1997-10-27"
-        },{
-            id:"5dd5a525209a5b00171226a5",
-            nombre: "Kevin Barrera",
-            status:false,
-            calle:"Felipe Ángeles",
-            número:202,
-            colonia: "Zempoala",
-            genero: false,
-            fechaNacimiento:"1997-10-27"
-        },]
+        posts:[]
         
         ,
         niño:{
@@ -89,8 +71,12 @@ class Niño extends Component{
             .then(this.setState({loading:false, modalOpened:false, completed:true}))
             .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));        
     }
-    postClickedHandler=(id)=>{
-        alert(id);
+    postModified=(id)=>{
+        this.setState({selectedPostId:id});
+        console.log(this.state.selectedPostId);
+        this.props.history.push({
+            pathname:'/niños/'+id,
+        });
     }
 
     render(){
@@ -135,7 +121,7 @@ class Niño extends Component{
         const posts= this.state.posts.map(a=>{
             return <Card imagen={Image} name={a.nombre} calle={a.calle} 
                          numero={a.número} colonia={a.colonia} 
-                         fechaNacimiento={a.fechaNacimiento} clicked2={()=>this.postClickedHandler("-Lu-kdwoBRXAt_KjEHF5") } //Debería ir post.id, está hard-coded, pero obtiene datos del backend
+                         fechaNacimiento={a.fechaNacimiento} c2={()=>this.postModified(a._id)} //Debería ir post.id, está hard-coded, pero obtiene datos del backend
         />});   
         
 

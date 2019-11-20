@@ -9,6 +9,7 @@ class Card2 extends Component{
     changeStatusHandler=()=>{
         this.setState({status:!this.state.status});
     }
+
  
     render(){
         let y;
@@ -29,7 +30,7 @@ class Card2 extends Component{
             <p className="texts">{this.props.calle} {this.props.numero} {this.props.colonia}</p>
             <p className="texts">{v.getFullYear()-o} años</p> 
             <div className="margin">
-            <Button text="Ver 2" onClick={this.props.c2}></Button>
+            <Button text="Ver 2" clicked={this.props.c2}></Button>
             <Button text="Cambiar status" clicked={this.changeStatusHandler}></Button>
             </div>
             

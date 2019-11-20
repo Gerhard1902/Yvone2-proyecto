@@ -4,20 +4,19 @@ import './NiñoE.css';
 
 class FullPost extends Component {
     state={
-        id:"-Lu-kdwoBRXAt_KjEHF5",
         loadedPost:null
     }
     componentDidMount(){
-        
-                axios.get("https://christmas-api.firebaseio.com/ninos/-Lu-kdwoBRXAt_KjEHF5.json")
+               
+                axios.get("https://api-mongod.herokuapp.com/ninos/"+this.props.match.params.id)
                 .then(response=>{
-                this.setState({loadedPost:response.data});
-                console.log(response.data);
+                this.setState({loadedPost:response.data.nino});  
             });
             
         }
     
     deletePostHandler=()=>{
+
         axios.delete('/posts/'+ this.props.id)
         .then(response=>{console.log(response)});
     }
@@ -33,7 +32,7 @@ class FullPost extends Component {
                     <h1>{this.state.loadedPost.nombre}</h1>
                     <h1>{this.state.loadedPost.calle}</h1>
                     <h1>{this.state.loadedPost.colonia}</h1>
-                    <h1>{this.state.loadedPost.calle}</h1>
+                    <h1>{this.state.loadedPost.numero}</h1>
                     <h1>{v.getFullYear()-this.state.loadedPost.fechaNacimiento.substring(0,4)}</h1>
                     <div className="Edit">
                         <button className="Delete" onClick={this.deletePostHandler}>Delete</button>
