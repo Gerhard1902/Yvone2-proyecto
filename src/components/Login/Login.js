@@ -1,23 +1,33 @@
-import React from 'react';
+import React, {Component} from 'react';
 import './Login.css';
 import Santa from '../../assets/circle_santa-512.png';
 
-const login=(props)=>(
-    <div className="flex">
-        <div className="center"> 
-            <div className="ok">
-                <img src={Santa} className="santa"></img> 
-                <input className="input1" placeholder="User"/>
-                <input className="input2" placeholder="Password"/>
-                <button className="btn-primary">Submit</button>
+class Login extends Component{
+
+    ContinueHandler=()=>{
+        this.props.history.push({
+            pathname:'/dashboard',
+        });
+    }
+    render(){
+        return(
+            <div className="flex">
+            <div className="center"> 
+               
+                <div className="transparency"></div> 
             </div>
-            <div className="transparency"></div> 
+               
+            <div className="okay">
+                    <img src={Santa} className="santa"></img> 
+                    <input className="input1" placeholder="User"/>
+                    <input className="input2" placeholder="Password"/>
+                    <button className="btn-primary" onClick={this.ContinueHandler}>Submit</button>
+                </div>
         </div>
-           
+        
+        );
+    }
+}
 
-    </div>
-    
 
-);
-
-export default login;
+export default Login;
