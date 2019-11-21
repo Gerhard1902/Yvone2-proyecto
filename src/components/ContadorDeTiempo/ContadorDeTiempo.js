@@ -52,17 +52,31 @@ class ContadorDeTiempo extends Component{
         let x = <Spinner/>;
 
         if (this.state.remainTime > 1){
-            x = <h3>Faltan {this.state.remainDays} días - {this.state.remainHours} horas - {this.state.remainMinutes} minutos y {this.state.remainSeconds} segundos.</h3>
+            x = <h2>{this.state.remainDays} días - {this.state.remainHours} horas - {this.state.remainMinutes} minutos y {this.state.remainSeconds} segundos.</h2>
         } else {
-            x = <h3>¡Ya es Navidad!</h3>
+            x = <h2>¡Ya es Navidad!</h2>
         }
         return (
           <div className="containerContador">
             <div>
-                <h2>Tiempo que falta para Navidad!</h2>
+                <h2>Faltan</h2>
+            </div>
+            <div className="tiempoRestante">
+                <div className="unidades">
+                    <h2>Días</h2>
+                    <h2>Horas</h2>
+                    <h2>Minutos</h2>
+                    <h2>Segundos</h2>
+                </div>
+                <div className="unidades">
+                    <h2 className="numero">{this.state.remainDays}</h2>
+                    <h2 className="numero">{this.state.remainHours}</h2>
+                    <h2 className="numero">{this.state.remainMinutes}</h2>
+                    <h2 className="numero">{this.state.remainSeconds}</h2>
+                </div>
             </div>
             <div>
-                {x}
+                <h2>Para Navidad</h2>
             </div>
           </div>
         );

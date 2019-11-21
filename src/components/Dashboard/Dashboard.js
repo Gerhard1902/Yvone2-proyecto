@@ -6,12 +6,12 @@ import {withRouter} from "react-router";
 
 
 const dashboard=(props)=>(
-    <div>
-        ¡Bienvenido, Snowman!
+    <div className="dashContainer">
+        <div className="welcomeMsj">
+            <h1>¡Bienvenido, Snowman!</h1>
+        </div>
         <ContadorDeTiempo></ContadorDeTiempo>
     </div>
-    
-
 );
 
 export default withRouter(dashboard);
