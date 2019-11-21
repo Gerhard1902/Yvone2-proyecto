@@ -5,7 +5,6 @@ import NavigationItems from '../Navigation/NavigationItems/NavigationItems'
 import ContadorDeTiempo from '../ContadorDeTiempo/ContadorDeTiempo';
 import {withRouter} from "react-router";
 
-
 const cookies = new Cookies();
 
 const dashboard=(props)=>(
