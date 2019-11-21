@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Spinner from '../UI/Spinner/Spinner';
 import './ContadorDeTiempo.css';
 
 class ContadorDeTiempo extends Component{
@@ -35,7 +34,7 @@ class ContadorDeTiempo extends Component{
         }
       }
 
-      countDown = (deadline, finalMessage) => {
+      countDown = (deadline) => {
           let timeUpdate = setInterval( () => {
               let t = this.getRemainTime(deadline);
               this.setState({
@@ -49,13 +48,6 @@ class ContadorDeTiempo extends Component{
       }
     
       render() {
-        let x = <Spinner/>;
-
-        if (this.state.remainTime > 1){
-            x = <h2>{this.state.remainDays} días - {this.state.remainHours} horas - {this.state.remainMinutes} minutos y {this.state.remainSeconds} segundos.</h2>
-        } else {
-            x = <h2>¡Ya es Navidad!</h2>
-        }
         return (
           <div className="containerContador">
             <div>
@@ -82,7 +74,5 @@ class ContadorDeTiempo extends Component{
         );
       }
 }
-
-
 
 export default ContadorDeTiempo;

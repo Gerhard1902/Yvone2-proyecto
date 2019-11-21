@@ -14,10 +14,10 @@ import Categoria from './components/Categorías/categoria';
 function App() {
   return (
     <div className="App">
-      
+
        <Switch>
            <Route path="/" exact component={Login}/>
-           <Layout>
+           <Layout>                    
            <Route path="/dashboard" component={Dashboard}/>
            <Route path="/niños" exact component={Niños}/>
            <Route path="/niños/:id" exact component={NiñoE}/>
@@ -26,9 +26,9 @@ function App() {
            <Route path="/categorias" component={Categoria}/>
            </Layout>
        </Switch>
-       
 
-          
+
+
     </div>
 
   );
