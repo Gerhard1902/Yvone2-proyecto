@@ -1,0 +1,40 @@
+.red{
+    width: 40px;
+    height: 150px;
+    margin-top: -27px;
+    background-color: red;
+    margin-left: -26px;
+}
+.green{
+    width: 40px;
+    height: 200px;
+    margin-top: -27px;
+    background-color:green;
+    margin-left: -26px;
+}
+.kid{
+    display:flex;
+    flex-direction: row;
+    width: 95%;
+    height: 200px;
+    padding: 26px;
+    border: 1px solid #eee;
+    box-shadow: 0 4px 4px #ccc;
+    margin:10px;
+    box-sizing: border-box;
+    cursor:pointer;
+    justify-content: flex-start;
+    align-content: space-between;
+
+}
+.theRest2{
+    width: 300px;
+    margin-top: -40px;
+    text-align: left;
+    margin-left: 10px;
+}
+.margin{
+    margin-top: -25px;
+    display: flex;
+    justify-content: space-between;
+}

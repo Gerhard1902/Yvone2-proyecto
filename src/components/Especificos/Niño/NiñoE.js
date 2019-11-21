@@ -4,8 +4,14 @@ import './NiñoE.css';
 
 class FullPost extends Component {
     state={
+        status: true,
         loadedPost:null
     }
+    
+    changeStatusHandler=()=>{
+        this.setState({status:!this.state.status});
+    }
+
     componentDidMount(){
                
                 axios.get("https://api-mongod.herokuapp.com/ninos/"+this.props.match.params.id)
@@ -21,6 +27,13 @@ class FullPost extends Component {
         .then(response=>{console.log(response)});
     }
     render () {
+        let y;
+        if (this.state.status){
+            y="green";
+        }else{
+            y="red"
+        }
+
         let post = <p style={{textAlign:'center'}}>Please select a Post!</p>;
         let v=new Date();
         if (this.props.id){
@@ -28,7 +41,10 @@ class FullPost extends Component {
         }
         if (this.state.loadedPost){
             post = (
-                <div className="FullPost">
+                <div className="kid">
+                    <div>
+                         <div className={y}></div>
+                    </div>
                     <h1>{this.state.loadedPost.nombre}</h1>
                     <h1>{this.state.loadedPost.calle}</h1>
                     <h1>{this.state.loadedPost.colonia}</h1>
@@ -37,6 +53,7 @@ class FullPost extends Component {
                     <div className="Edit">
                         <button className="Delete" onClick={this.deletePostHandler}>Delete</button>
                     </div>
+                    <div>x</div>
                 </div>
     
             );

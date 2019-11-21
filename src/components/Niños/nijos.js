@@ -20,17 +20,18 @@ class Niño extends Component{
         posts:[]
         
         ,
-        niño:{
-            nombre: "Kevin Barrera",
+       
+            nombre: "",
             status:false,
-            calle:"Felipe Ángeles",
-            número:202,
-            colonia: "Zempoala",
+            calle:"",
+            número:"",
+            colonia: "",
             genero: false,
-            fechaNacimiento:"1997-10-27"
-        },
+            fechaNacimiento:""
+    
         
-    }
+    };
+ 
 
     componentDidMount(){
        axios.get('https://api-mongod.herokuapp.com/ninos')
@@ -47,7 +48,6 @@ class Niño extends Component{
     }
     modalOpened=()=>{
         this.setState({modalOpened:true});
-        console.log("reached");
 	}
 	modalClosed=()=>{
 		this.setState({modalOpened:false});
@@ -59,15 +59,15 @@ class Niño extends Component{
     submitHandler=()=>{
         this.setState({loading:true});
         const niño={
-            nombre: "Kevin Barrera",
-            status:false,
-            calle:"Felipe Ángeles",
-            número:202,
-            colonia: "Zempoala",
-            genero: false,
-            fechaNacimiento:"1997-10-27"
+            nombre: this.state.name,
+            status:this.state.status,
+            calle:this.state.calle,
+            número:this.state.numero,
+            colonia: this.state.colonia,
+            genero: this.state.genero,
+            fechaNacimiento: this.state.fechaNacimiento
         }
-        axios.post('/ninos.json', niño)     //Hay que modificar la ruta para el servidor
+        axios.post('/ninos', niño)     //Hay que modificar la ruta para el servidor
             .then(this.setState({loading:false, modalOpened:false, completed:true}))
             .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));        
     }
@@ -78,6 +78,49 @@ class Niño extends Component{
             pathname:'/niños/'+id,
         });
     }
+    handleChange=(event)=>{
+        this.setState({"nombre": event.target.value});
+        console.log(this.state.nombre);
+
+    }
+    handleChange2=(event)=>{
+        this.setState({"fechaNacimiento": event.target.value});
+        console.log(event.target.value);
+
+    }
+    handleChange3=(event)=>{
+        this.setState({"calle": event.target.value});
+        console.log(this.state.calle);
+
+    }
+    handleChange4=(event)=>{
+        this.setState({"numero": event.target.value});
+        console.log(this.state.numero);
+
+    }
+    handleChange5=(event)=>{
+        this.setState({"colonia": event.target.value});
+        console.log(this.state.colonia);
+
+    }
+    handleChange6=(event)=>{
+        this.setState({"status": event.target.checked});
+        console.log(this.state.status);
+
+    }
+    handleChange7=(event)=>{
+        this.setState({"genero": event.target.checked});
+        console.log(this.state.genero);
+
+    }
+    deleteHandler=()=>{
+       console.log("delete");
+       /*deletePostHandler=()=>{
+        axios.delete('/posts/'+ this.props.id)
+        .then(response=>{console.log(response)});
+    }*/
+	}
+
 
     render(){
         
@@ -86,16 +129,17 @@ class Niño extends Component{
         let x=(
             <div>
                 <p className="niño">Agregar niño</p>
-                <input placeholder="Nombre completo" className="data"></input>
-                <input placeholder="Fecha de nacimiento" type="date" className="data"></input>
-                <input placeholder="Calle" className="data"></input>
-                <input placeholder="Número" className="data" type="number"></input>
-                <input placeholder="Colonia" className="data"></input>
+                <input placeholder="Nombre completo" className="data" onChange={this.handleChange}></input>
+                <input placeholder="Fecha de nacimiento" type="date"
+                     className="data" onChange={this.handleChange2}></input>
+                <input placeholder="Calle" className="data" onChange={this.handleChange3}></input>
+                <input placeholder="Número" className="data" type="number" onChange={this.handleChange4}></input>
+                <input placeholder="Colonia" className="data" onChange={this.handleChange5}></input>
                 <div className="col">
                     <div className="toggle">
                         <p className="textt">niño</p>
                         <label class="switch">
-                            <input  type="checkbox"></input>
+                            <input  type="checkbox" onChange={this.handleChange6}></input>
                             <span class="slider round"></span>
                         </label>
                         <p className="textt">niña</p>
@@ -103,7 +147,7 @@ class Niño extends Component{
                     <div className="toggle">
                         <p className="textt">bueno</p>
                         <label class="switch">
-                            <input  type="checkbox"></input>
+                            <input  type="checkbox" onChange={this.handleChange7}></input>
                             <span class="slider round"></span>
                         </label>
                         <p className="textt">malo</p>
@@ -121,7 +165,8 @@ class Niño extends Component{
         const posts= this.state.posts.map(a=>{
             return <Card imagen={Image} name={a.nombre} calle={a.calle} 
                          numero={a.número} colonia={a.colonia} 
-                         fechaNacimiento={a.fechaNacimiento} c2={()=>this.postModified(a._id)} //Debería ir post.id, está hard-coded, pero obtiene datos del backend
+                         fechaNacimiento={a.fechaNacimiento} 
+                         c2={()=>this.postModified(a._id)} 
         />});   
         
 

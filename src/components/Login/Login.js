@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import './Login.css';
 import axios from 'axios';
-import Cookies from 'universal-cookie';
+//import Cookies from 'universal-cookie';
 import Santa from '../../assets/circle_santa-512.png';
 
-const cookies = new Cookies();
+//const cookies = new Cookies();
 
 class Login extends Component{
 
@@ -29,7 +29,7 @@ class Login extends Component{
 
     ContinueHandler(event){
 
-      axios.post('https://api-mongod.herokuapp.com/empleados/login', {
+    /*  axios.post('https://api-mongod.herokuapp.com/empleados/login', {
           nombre: this.state.user,
           password: this.state.password,
       }).then(res => {
@@ -38,7 +38,7 @@ class Login extends Component{
       })
       .catch((error) => {
         alert("Credenciales Incorrectas"); //Poner mensaje mas bonito
-      })
+      })*/
     }
 
 
