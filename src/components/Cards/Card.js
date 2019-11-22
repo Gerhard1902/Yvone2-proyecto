@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 import DotsOptions from '../UI/DotsOptions/DotsOptions';
+import Modal from '../UI/Modal/Modal';
+import Button from '../UI/Button/Button';
+import axios from '../../axios-petition';
 import './Card.css';
 
 class Card extends Component{
@@ -7,8 +10,31 @@ class Card extends Component{
         super(props);
         this.state={
             modalOpened:false,
+            modalOpened2:false,
+            editar:false,
+            selectedPostId:"",
+
+            nombre:"",
+            costo:"",
+            urlImagen:"",
+            categoria:"",
+            error:""
         }
     }
+    
+    modalOpened2=()=>{
+        if (this.state.modalOpened === true){
+            this.setState({modalOpened2:false});
+        } else {
+            this.setState({modalOpened2:true});
+        }
+        console.log("Se está ejecutando el modalOpened");
+	}
+	modalClosed2=()=>{
+        this.setState({modalOpened2:false});
+        console.log("Se está ejecutando el modalClosed");
+    }
+
 
     modalOpened=()=>{
         if (this.state.modalOpened === true){
@@ -22,18 +48,73 @@ class Card extends Component{
         this.setState({modalOpened:false});
         console.log("Se está ejecutando el modalClosed");
     }
+
+    handleChange=(event)=>{
+        this.setState({"nombre": event.target.value});
+        console.log(this.state.nombre);
+
+    }
+    handleChange2=(event)=>{
+        this.setState({"costo": event.target.value});
+        console.log(event.target.value);
+
+    }
+    handleChange3=(event)=>{
+        this.setState({"urlImagen": event.target.value});
+        console.log(event.target.value);
+
+    }
+    handleChange4=(event)=>{
+        this.setState({"categoria": event.target.value});
+        console.log(this.state.categoria);
+
+    }
+
     deleteRegalo=()=>{
-        alert("Eliminado");
+        axios.delete('https://api-mongod.herokuapp.com/regalos/'+this.props.id)
+            .then(response=>{
+                    console.log(response);
+                    window.location.reload(false);
+            })
+            .catch(this.setState({loading:false, modalOpened2:false, error:true, completed:false}));
 		this.setState({modalOpened:false});
     }
     editarRegalo=()=>{
-        alert("Editado");
-		this.setState({modalOpened:false});
+        this.setState({modalOpened2:true});
+        axios.get('https://api-mongod.herokuapp.com/regalos/'+this.props.id)
+            .then(response=>{
+               this.setState(
+                    {
+                        nombre:response.data.regalo.nombre,
+                        costo:response.data.regalo.costo,
+                        urlImagen:response.data.regalo.urlImagen,
+                        categoria:response.data.regalo.categoria,
+                    });
+                    console.log(response);
+            })
+            .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
+        
         /*this.props.history.push({
             pathname:'/categorias',
         });*/
     }
-
+    editClickedHandler=()=>{
+        const objeto={
+            nombre:this.state.nombre,
+            costo:this.state.costo,
+            urlImagen:this.state.urlImagen,
+            categoria:this.state.categoria,
+        }
+        console.log(objeto);
+        console.log("la petición");
+        axios.put('https://api-mongod.herokuapp.com/regalos/'+this.props.id,objeto)
+            .then(response=>{
+                console.log(response.data);
+                this.setState({modalOpened2:false});
+                window.location.reload(false);
+            })
+            .catch(this.setState({modalOpened2:false, error:true}));
+    }
     render(){
         let x=(
             <div className="btnOptions">
@@ -42,7 +123,7 @@ class Card extends Component{
            </div>
         );
         return(
-            <div className="container">
+            <div className="container" onClick={this.props.clicked}>
                 <img src={this.props.imagen} className="imag"></img>
                 <div className="theRest">
                     <p className="title">{this.props.name}</p>
@@ -56,26 +137,37 @@ class Card extends Component{
 		                {x}
 		            </DotsOptions>
                 </div>
+        <Modal show={this.state.modalOpened2} modalClosed={this.modalClosed2}>
+            <div>
+            <p className="niño">Modificar Regalo</p>
+                <div>
+                    <div >Nombre:</div>
+                    <input placeholder={this.state.nombre} className="data"  onChange={this.handleChange}></input>
+                </div>
+                <div>
+                    <div>Categoría: </div>
+                    <select placeholder="categoría" onChange={this.handleChange2}>
+                        {this.props.lol.map((x) => <option value={x._id}>{x.nombre}</option>)}
+                    </select>
+                </div>
+                <div>
+                    <div>Precio: </div>
+                    <input placeholder={this.state.costo} type="number"  className="data" onChange={this.handleChange2}></input>
+                </div>
+                <div>
+                    <div>Url imagen:</div>
+                    <input placeholder={this.state.urlImagen} className="data"  onChange={this.handleChange3}></input>
+                </div>
+                
+                <div className="col">
+                    <Button text="Cancelar" clicked={this.modalClosed}/>
+                    <Button text="Aceptar" clicked={this.editClickedHandler}/>
+                </div>
+            </div>
+		</Modal>
             </div>
         );
     }
 }
-/*const card =(props)=>(
-	<div className="container">
-        <img src={props.imagen} className="imag"></img>
-        <div className="theRest">
-            <p className="title">{props.name}</p>
-            <p className="texts">Categoría</p>
-            <p className="texts">Precio</p>     
-        </div>
-        <div className="dots">
-            <button className="btnDots">
-                <div className="dot"></div>
-                <div className="dot"></div>
-                <div className="dot"></div>
-            </button>
-        </div>
-    </div>
-);*/
 
 export default Card;

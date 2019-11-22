@@ -53,3 +53,7 @@
     color:gray;
     font-size: 16px;
 }
+.rows{
+    display:flex;
+    flex-direction:row;
+}
