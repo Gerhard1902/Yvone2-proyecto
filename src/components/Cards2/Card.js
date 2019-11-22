@@ -13,7 +13,7 @@ class Card2 extends Component{
         // const niño = {
         //   status:this.state.status
         // }
-        const est = !this.props.status;        
+        const est = !this.props.status;
         axios.put('https://api-mongod.herokuapp.com/ninos/'+ this.props.id,  { status: est } )     //Hay que modificar la ruta para el servidor
             .then(r => console.log(r.status))
             .catch(e => console.log(e));
@@ -29,7 +29,7 @@ class Card2 extends Component{
         }
         let o=this.props.fechaNacimiento.substring(0,4);
         let v=new Date();
-        
+
         return(
         <div className="container4">
             <div className={y}>

@@ -34,14 +34,26 @@ class Categoria extends Component{
     modalOpened=()=>{
         this.setState({modalOpened:true});
         console.log("reached");
-	}
-	modalClosed=()=>{
-		this.setState({modalOpened:false});
-    }
+  	}
+
+  	modalClosed=()=>{
+  		this.setState({modalOpened:false});
+      }
+
     submitHandler=()=>{
-        alert("submitted");
-		this.setState({modalOpened:false});
+      axios.post('https://api-mongod.herokuapp.com/categorias/',  { nombre: this.state.nombre } )     //Hay que modificar la ruta para el servidor
+          .then(r => {
+            console.log(r.status);
+            alert("submitted");
+          })
+          .catch(e => console.log(e));
     }
+
+    handleChange=(event)=>{
+       this.setState({"nombre": event.target.value});
+       console.log(this.state.nombre);
+    }
+
     ContinueHandler=()=>{
     this.props.history.push({
         pathname:'/categorias',
@@ -50,9 +62,9 @@ class Categoria extends Component{
     render(){
         let x=(
             <div>
-                
+
                 <p className="niño">Nueva Categoría</p>
-                <input placeholder="Nombre" className="data"></input>
+                <input placeholder="Nombre" className="data" onChange={this.handleChange}></input>
                 <div className="col">
                    <Button text="Cancelar" clicked={this.modalClosed}/>
                    <Button text="Aceptar" clicked={this.submitHandler}/>
@@ -60,15 +72,15 @@ class Categoria extends Component{
                </div>
             </div>
         );
-        
+
         if (this.state.loading){
             x=<Spinner/>;
         }
         const posts= this.state.posts.map(a=>{
             return <tr className="Atr">
-                        <td className="aFlex Atd">{a.nombre} 
+                        <td className="aFlex Atd">{a.nombre}
                             <div >
-                                <img src={Pencil} className="icon" ></img> 
+                                <img src={Pencil} className="icon" ></img>
                                 <img src={X} className="icon"></img>
                             </div>
                         </td>
@@ -86,7 +98,7 @@ class Categoria extends Component{
                 </tr>
                 {posts}
             </table>
-            
+
         </div>
         <Modal show={this.state.modalOpened} modalClosed={this.modalClosed}>
 		    {x}

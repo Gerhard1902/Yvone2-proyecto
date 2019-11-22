@@ -72,7 +72,8 @@ class Niño extends Component{
         console.log(niño);
         axios.post('https://api-mongod.herokuapp.com/ninos/',  niño )     //Hay que modificar la ruta para el servidor
             .then(
-              this.setState({loading:false, modalOpened:false, completed:true}),
+              this.setState(
+              {loading:false, modalOpened:false, completed:true}),
               alert("Registro Exitoso")//Favor de dar formato que yo no se como hacerlo bonito jeje
             )
             .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
