@@ -30,9 +30,9 @@ class FullPost extends Component {
     render () {
         let y;
         if (this.state.status){
-            y="green";
+            y="bueno";
         }else{
-            y="red"
+            y="malo"
         }
         let st;
         if (this.loadedPost){
@@ -51,19 +51,25 @@ class FullPost extends Component {
         if (this.state.loadedPost){
             post = (
                 <div className="kid">
-                    <div>
-                         <div className={y}></div>
+                    <div className={y}></div>
+                    <div className="seccionesNinoE">
+                        <div className="fila1">
+                            <p>{this.state.loadedPost.nombre}</p>
+                            <div className="Edit">
+                                <button className="Delete" onClick={this.deletePostHandler}>Delete</button>
+                            </div>
+                        </div>
+                        <div className="fila2">
+                            <p>{st}</p>
+                            <p>{v.getFullYear()-this.state.loadedPost.fechaNacimiento.substring(0,4)}</p>
+                        </div>
+                        <div className="fila3">
+                            <p>{this.state.loadedPost.calle}</p>
+                            <p>{this.state.loadedPost.colonia}</p>
+                            <p>{this.state.loadedPost.numero}</p>
+                            <div>x</div>
+                        </div>
                     </div>
-                    <p>{this.state.loadedPost.nombre}</p>
-                    <p>{st}</p>
-                    <p>{this.state.loadedPost.calle}</p>
-                    <p>{this.state.loadedPost.colonia}</p>
-                    <p>{this.state.loadedPost.numero}</p>
-                    <p>{v.getFullYear()-this.state.loadedPost.fechaNacimiento.substring(0,4)}</p>
-                    <div className="Edit">
-                        <button className="Delete" onClick={this.deletePostHandler}>Delete</button>
-                    </div>
-                    <div>x</div>
                 </div>
     
             );

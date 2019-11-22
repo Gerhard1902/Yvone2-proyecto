@@ -4,13 +4,31 @@
     margin-top: -27px;
     background-color: red;
     margin-left: -26px;
+    margin-right: 5px;
 }
 .greenish{
+    width: 40px;
+    height: 150px;
+    margin-top: -27px;
+    background-color:green;
+    margin-left: -26px;
+    margin-right: 5px;
+}
+.malo{
+    width: 40px;
+    height: 200px;
+    margin-top: -27px;
+    background-color: red;
+    margin-left: -26px;
+    margin-right: 5px;
+}
+.bueno{
     width: 40px;
     height: 200px;
     margin-top: -27px;
     background-color:green;
     margin-left: -26px;
+    margin-right: 5px;
 }
 .kid{
     display:flex;
@@ -37,4 +55,38 @@
     margin-top: -25px;
     display: flex;
     justify-content: space-between;
+}
+.seccionesNinoE{
+    display: flex;
+    flex-direction: column;
+    margin-top: -27px;
+    height: 100%;
+}
+.fila1{
+    display: flex;
+    flex-direction: row;
+    justify-content:flex-start;
+    font-size: 30px;
+    font-style: initial;
+    border: 1px solid black;
+}
+.fila2{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content:flex-start;
+    font-size: 16px;
+    font-style: initial;
+    color: gray;
+    border: 1px solid black;
+}
+.fila3{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content:flex-start;
+    font-size: 16px;
+    font-style: initial;
+    color: gray;
+    border: 1px solid black;
 }
