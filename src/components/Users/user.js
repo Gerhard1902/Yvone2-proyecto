@@ -66,7 +66,7 @@ class Usuarios extends Component{
           axios.post('https://api-mongod.herokuapp.com/empleados/',  reg )     //Hay que modificar la ruta para el servidor
               .then(
                 this.setState({loading:false, modalOpened:false, completed:true}),
-                alert("Registro Exitoso")//Favor de dar formato que yo no se como hacerlo bonito jeje
+                window.location.reload(false)
               )
               .catch(
                 this.setState({loading:false, modalOpened:false, error:true, completed:false}),                

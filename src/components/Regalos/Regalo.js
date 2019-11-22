@@ -6,12 +6,15 @@ import Modal from '../UI/Modal/Modal';
 import axios from '../../axios-petition';
 import Spinner from '../UI/Spinner/Spinner';
 import Button from '../UI/Button/Button';
+import withErrorHandler from '../withErrorHandler/withErrorHandler';
+
 
 class Regalo2 extends Component{
     state={
         modalOpened:false,
         loading:false,
         error:false,
+        loading:false,
         completed:false,
         selectedPostId:null,
         categ:[],
@@ -137,4 +140,4 @@ class Regalo2 extends Component{
 
 
 
-export default Regalo2;
+export default withErrorHandler(Regalo2, axios);
