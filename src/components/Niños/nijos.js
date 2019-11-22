@@ -170,8 +170,6 @@ class Niño extends Component{
                          numero={a.número} colonia={a.colonia}
                          fechaNacimiento={a.fechaNacimiento}
                          c2={()=>this.postModified(a._id)}
-                         id={a._id}
-                         status={a.status}
         />});
 
 

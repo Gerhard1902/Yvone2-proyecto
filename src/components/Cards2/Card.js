@@ -33,8 +33,6 @@ class Card2 extends Component{
         return(
         <div className="container4">
             <div className={y}>
-
-
         </div>
         <div className="theRest2">
             <p className="title">{this.props.name}</p>

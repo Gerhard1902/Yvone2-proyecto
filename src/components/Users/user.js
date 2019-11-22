@@ -1,14 +1,31 @@
 import React, {Component} from 'react';
 import Regalo from '../../assets/santa.jpg';
 import Image from '../Image2/Image';
-import Card from '../Cards/Card';
+import Card from '../CardUsuario/Card';
 import Modal from '../UI/Modal/Modal';
 import Button from '../UI/Button/Button';
+import axios from '../../axios-petition';
+import Spinner from '../UI/Spinner/Spinner';
 
 class Usuarios extends Component{
     state={
         modalOpened:false,
+        loading:false,
+        error:false,
+        completed:false,
+        selectedPostId:null,
+        posts:[]
+        ,
+            nombre: "",
+            link:""
     }
+    componentDidMount(){
+        axios.get('https://api-mongod.herokuapp.com/empleados')
+         .then(response=>{
+             this.setState({posts:response.data.result}); 
+         })
+         .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
+     }
 
     modalOpened=()=>{
         this.setState({modalOpened:true});
@@ -37,10 +54,19 @@ class Usuarios extends Component{
                </div>
             </div>
         );
+        if (this.state.loading){
+            x=<Spinner/>;
+        }
+        const posts= this.state.posts.map(a=>{
+            return <Card link={a.fotoPerfil} 
+                    name={a.nombre}
+        />});
         return(
             <div>
                 <Image link={Regalo} click={this.modalOpened}  text="Lista de usuarios"/>
-                <Card imagen={Regalo}></Card>
+                <div className="otro">
+                    {posts}
+                </div>
                 <Modal show={this.state.modalOpened} modalClosed={this.modalClosed}>
 				    {x}
 		    	</Modal>

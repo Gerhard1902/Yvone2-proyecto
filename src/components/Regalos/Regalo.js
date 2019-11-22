@@ -3,16 +3,33 @@ import Regalo from '../../assets/regalo2.jpg';
 import Image from '../Image/Image';
 import Card from '../Cards/Card';
 import Modal from '../UI/Modal/Modal';
+import axios from '../../axios-petition';
+import Spinner from '../UI/Spinner/Spinner';
 import Button from '../UI/Button/Button';
 
 class Regalo2 extends Component{
     state={
         modalOpened:false,
+        loading:false,
+        error:false,
+        completed:false,
+        selectedPostId:null,
+        posts:[],
+            nombre:"",
+            costo:"",
+            urlImagen:"",
+            categoria:""
     }
+    componentDidMount(){
+        axios.get('https://api-mongod.herokuapp.com/regalos')
+         .then(response=>{
+             this.setState({posts:response.data.result});
+         })
+         .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
+     }
 
     modalOpened=()=>{
         this.setState({modalOpened:true});
-        console.log("reached");
 	}
 	modalClosed=()=>{
 		this.setState({modalOpened:false});
@@ -45,13 +62,20 @@ class Regalo2 extends Component{
                </div>
             </div>
         );
+        if (this.state.loading){
+            x=<Spinner/>;
+        }
+        const posts= this.state.posts.map(a=>{
+            return <Card imagen={a.urlImagen} name={a.nombre} 
+                        precio={a.costo}
+        />});
+
         return(
             <div>
         <Image link={Regalo} text="Catálogo de regalos" click={this.modalOpened} click2={this.ContinueHandler} button="Categorías"/>
-        <Card imagen={Regalo}></Card>
-        <Card imagen={Regalo}></Card>
-        <Card imagen={Regalo}></Card>
-        <Card imagen={Regalo}></Card>
+        <div className="otro">
+             {posts}
+           </div>
         <Modal show={this.state.modalOpened} modalClosed={this.modalClosed}>
 		    {x}
 		</Modal>
