@@ -99,8 +99,6 @@ class FullPost extends Component {
                             <button className="addButton" onClick={this.addRegalo}>+</button>
                         </div>
                         <div className="regalosNE">
-                            <Card></Card>
-                            <Card></Card>
                         </div>
                     </div>
                     <div>
