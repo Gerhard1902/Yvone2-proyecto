@@ -3,7 +3,7 @@ import './Login.css';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import Santa from '../../assets/circle_santa-512.png';
-import Alert from 'react-bootstrap/Alert';
+
 
 const cookies = new Cookies();
 
