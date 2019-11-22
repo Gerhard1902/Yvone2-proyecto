@@ -21,16 +21,16 @@ class Card2 extends Component{
         let o=this.props.fechaNacimiento.substring(0,4);
         let v=new Date();
         
-        return(<div className="container2">
-        <div className={y}>
-
+        return(
+        <div className="container4">
+            <div className={y}>
         </div>
         <div className="theRest2">
             <p className="title">{this.props.name}</p>
             <p className="texts">{this.props.calle} {this.props.numero} {this.props.colonia}</p>
             <p className="texts">{v.getFullYear()-o} años</p> 
             <div className="margin">
-            <Button text="Ver 2" clicked={this.props.c2}></Button>
+            <Button text="Ver" clicked={this.props.c2}></Button>
             <Button text="Cambiar status" clicked={this.changeStatusHandler}></Button>
             </div>
             

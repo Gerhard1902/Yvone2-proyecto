@@ -87,6 +87,8 @@
   .otro{
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+
   }
   .textt{
       font-size: 20px;

@@ -16,7 +16,8 @@ class FullPost extends Component {
                
                 axios.get("https://api-mongod.herokuapp.com/ninos/"+this.props.match.params.id)
                 .then(response=>{
-                this.setState({loadedPost:response.data.nino});  
+                this.setState({loadedPost:response.data.nino}); 
+                
             });
             
         }
@@ -33,6 +34,14 @@ class FullPost extends Component {
         }else{
             y="red"
         }
+        let st;
+        if (this.loadedPost){
+            if (this.loadedPost.genero== true){
+                st="niño";
+            }
+            else st="niña"; 
+        }
+        
 
         let post = <p style={{textAlign:'center'}}>Please select a Post!</p>;
         let v=new Date();
@@ -45,11 +54,12 @@ class FullPost extends Component {
                     <div>
                          <div className={y}></div>
                     </div>
-                    <h1>{this.state.loadedPost.nombre}</h1>
-                    <h1>{this.state.loadedPost.calle}</h1>
-                    <h1>{this.state.loadedPost.colonia}</h1>
-                    <h1>{this.state.loadedPost.numero}</h1>
-                    <h1>{v.getFullYear()-this.state.loadedPost.fechaNacimiento.substring(0,4)}</h1>
+                    <p>{this.state.loadedPost.nombre}</p>
+                    <p>{st}</p>
+                    <p>{this.state.loadedPost.calle}</p>
+                    <p>{this.state.loadedPost.colonia}</p>
+                    <p>{this.state.loadedPost.numero}</p>
+                    <p>{v.getFullYear()-this.state.loadedPost.fechaNacimiento.substring(0,4)}</p>
                     <div className="Edit">
                         <button className="Delete" onClick={this.deletePostHandler}>Delete</button>
                     </div>
