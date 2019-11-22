@@ -1,0 +1,42 @@
+.icon{
+    width: 15px;
+    height: 15px;
+    margin-left: 10px;
+
+}
+.aFlex{
+    display: flex;
+    flex-direction: row;
+    width: 400px;
+    justify-content: space-between;
+    border-style: double;
+}
+
+.Atd, .Ath {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+.Atr:nth-child(even){background-color: #f2f2f2;}
+    
+  .Ah, .Ath {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: royalblue;
+    color: white;
+  }
+
+  .Aflex2{
+      display: flex;
+      justify-content: center;
+      align-content: center;
+      margin-top:20px
+  }
+
+  @media(max-width:701px){
+    .aFlex{
+      width: 250px;
+    }
+    
+  }

@@ -4,11 +4,32 @@ import Image from '../Image2/Image';
 import Card from '../Cards/Card';
 import Modal from '../UI/Modal/Modal';
 import Button from '../UI/Button/Button';
+import axios from '../../axios-petition';
+import Spinner from '../UI/Spinner/Spinner';
+import Pencil from "../../assets/pencil.jpg";
+import X from "../../assets/x.png";
+import "./categoria.css";
 
 class Categoria extends Component{
     state={
         modalOpened:false,
+        modalOpened:false,
+        loading:false,
+        error:false,
+        completed:false,
+        selectedPostId:null,
+        posts:[]
+        ,
+            nombre: "",
     }
+    componentDidMount(){
+        axios.get('https://api-mongod.herokuapp.com/categorias')
+         .then(response=>{
+             this.setState({posts:response.data.result});
+         })
+         .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
+         console.log(this.state.posts);
+     }
 
     modalOpened=()=>{
         this.setState({modalOpened:true});
@@ -39,10 +60,34 @@ class Categoria extends Component{
                </div>
             </div>
         );
+        
+        if (this.state.loading){
+            x=<Spinner/>;
+        }
+        const posts= this.state.posts.map(a=>{
+            return <tr className="Atr">
+                        <td className="aFlex Atd">{a.nombre} 
+                            <div >
+                                <img src={Pencil} className="icon" ></img> 
+                                <img src={X} className="icon"></img>
+                            </div>
+                        </td>
+                   </tr>
+        });
+
+
         return(
             <div>
         <Image link={Regalo} text="Categorías" click={this.modalOpened} click2={this.ContinueHandler} button="Categorías"/>
-        <Card imagen={Regalo}></Card>
+        <div className="Aflex2">
+            <table>
+                <tr className="Atr">
+                    <th className="Ath">Nombre </th>
+                </tr>
+                {posts}
+            </table>
+            
+        </div>
         <Modal show={this.state.modalOpened} modalClosed={this.modalClosed}>
 		    {x}
 		</Modal>
