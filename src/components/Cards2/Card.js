@@ -9,14 +9,14 @@ class Card2 extends Component{
     }
 
     changeStatusHandler=()=>{
-        this.setState({status:!this.state.status});
-        const niño = {
-          status:this.state.status
-        }
-        console.log(this.props.id);
-        axios.put('https://api-mongod.herokuapp.com/ninos/'+ this.props.id,  niño )     //Hay que modificar la ruta para el servidor
-            .then(console.log("Cambio exitoso"))
-            .catch(console.log("Cambio no exitoso"));
+        // this.setState({status:!this.state.status});
+        // const niño = {
+        //   status:this.state.status
+        // }
+        const est = !this.props.status;        
+        axios.put('https://api-mongod.herokuapp.com/ninos/'+ this.props.id,  { status: est } )     //Hay que modificar la ruta para el servidor
+            .then(r => console.log(r.status))
+            .catch(e => console.log(e));
     }
 
 
