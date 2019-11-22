@@ -47,7 +47,7 @@ class Regalo2 extends Component{
         axios.post('https://api-mongod.herokuapp.com/regalos/',  reg )     //Hay que modificar la ruta para el servidor
             .then(res=>{
                 this.setState({loading:false, modalOpened:false, completed:true})
-                window.location.reload(false);git
+                window.location.reload(false);
             })
             .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
     }

@@ -70,8 +70,12 @@ class Niño extends Component{
             fechaNacimiento: this.state.fechaNacimiento
         };
         console.log(niño);
-        axios.post('ninos/',  niño )     //Hay que modificar la ruta para el servidor
-            .then(this.setState({loading:false, modalOpened:false, completed:true}))
+        axios.post('https://api-mongod.herokuapp.com/ninos/',  niño )     //Hay que modificar la ruta para el servidor
+            .then(
+              this.setState(
+              {loading:false, modalOpened:false, completed:true}),
+              alert("Registro Exitoso")//Favor de dar formato que yo no se como hacerlo bonito jeje
+            )
             .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
     }
     postModified=(id)=>{
@@ -170,6 +174,8 @@ class Niño extends Component{
                          numero={a.número} colonia={a.colonia}
                          fechaNacimiento={a.fechaNacimiento}
                          c2={()=>this.postModified(a._id)}
+                         id={a._id}
+                         status={a.status}
         />});
 
 

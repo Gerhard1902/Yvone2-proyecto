@@ -24,11 +24,11 @@ class Usuarios extends Component{
     componentDidMount(){
         axios.get('https://api-mongod.herokuapp.com/empleados')
          .then(response=>{
-             this.setState({posts:response.data.result}); 
+             this.setState({posts:response.data.result});
          })
          .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
      }
-     
+
     handleChange=(event)=>{
         this.setState({"nombre": event.target.value});
         console.log(this.state.nombre);
@@ -57,11 +57,22 @@ class Usuarios extends Component{
             nombre: this.state.nombre,
             fotoPerfil:this.state.link,
             password:this.state.password,
-           
+
         };
-        axios.post('regalos/',  reg )     //Hay que modificar la ruta para el servidor
-            .then(this.setState({loading:false, modalOpened:false, completed:true}))
-            .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
+        if(this.state.password != this.state.password2){
+          alert("Contraseñas no cuadran"); //Favor de dar formato que yo no se como hacerlo bonito jeje
+        }
+        else {
+          axios.post('https://api-mongod.herokuapp.com/empleados/',  reg )     //Hay que modificar la ruta para el servidor
+              .then(
+                this.setState({loading:false, modalOpened:false, completed:true}),
+                alert("Registro Exitoso")//Favor de dar formato que yo no se como hacerlo bonito jeje
+              )
+              .catch(
+                this.setState({loading:false, modalOpened:false, error:true, completed:false}),                
+              );
+        }
+
     }
 
 
@@ -72,14 +83,11 @@ class Usuarios extends Component{
 	modalClosed=()=>{
 		this.setState({modalOpened:false});
     }
-    submitHandler=()=>{
-        alert("submitted");
-		this.setState({modalOpened:false});
-    }
+
     render(){
         let x=(
             <div>
-                
+
                 <p className="niño">Agregar Usuario</p>
                 <input type="text"  className="data"
                     placeholder="Url de foto de perfil"
@@ -98,7 +106,7 @@ class Usuarios extends Component{
             x=<Spinner/>;
         }
         const posts= this.state.posts.map(a=>{
-            return <Card link={a.fotoPerfil} 
+            return <Card link={a.fotoPerfil}
                     name={a.nombre}
         />});
         return(
