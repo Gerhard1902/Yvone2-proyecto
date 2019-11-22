@@ -28,11 +28,9 @@ class Card extends Component{
         } else {
             this.setState({modalOpened2:true});
         }
-        console.log("Se está ejecutando el modalOpened");
 	}
 	modalClosed2=()=>{
         this.setState({modalOpened2:false});
-        console.log("Se está ejecutando el modalClosed");
     }
 
 
@@ -42,11 +40,9 @@ class Card extends Component{
         } else {
             this.setState({modalOpened:true});
         }
-        console.log("Se está ejecutando el modalOpened");
 	}
 	modalClosed=()=>{
         this.setState({modalOpened:false});
-        console.log("Se está ejecutando el modalClosed");
     }
 
     handleChange=(event)=>{
