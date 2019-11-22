@@ -45,7 +45,10 @@ class Regalo2 extends Component{
             categoria:this.state.categoria,
         };
         axios.post('https://api-mongod.herokuapp.com/regalos/',  reg )     //Hay que modificar la ruta para el servidor
-            .then(this.setState({loading:false, modalOpened:false, completed:true}))
+            .then(
+              this.setState({loading:false, modalOpened:false, completed:true}),
+              alert("Registro Exitoso")//Favor de dar formato que yo no se como hacerlo bonito jeje
+            )
             .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
     }
      handleChange=(event)=>{

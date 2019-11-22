@@ -69,8 +69,7 @@ class Usuarios extends Component{
                 alert("Registro Exitoso")//Favor de dar formato que yo no se como hacerlo bonito jeje
               )
               .catch(
-                this.setState({loading:false, modalOpened:false, error:true, completed:false}),
-                alert("Registro Fallido")//Favor de dar formato que yo no se como hacerlo bonito jeje
+                this.setState({loading:false, modalOpened:false, error:true, completed:false}),                
               );
         }
 
