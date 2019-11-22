@@ -47,6 +47,7 @@ class FullPost extends Component {
     addRegalo=()=>{
         console.log("Voy a agregar un regalo");
     }
+
     render () {
         let y;
         if (this.state.status){
@@ -62,7 +63,6 @@ class FullPost extends Component {
             else st="niña"; 
         }
         
-
         let post = <p style={{textAlign:'center'}}>Please select a Post!</p>;
         let v=new Date();
         if (this.props.id){
@@ -85,9 +85,9 @@ class FullPost extends Component {
                                 <p>{v.getFullYear()-this.state.loadedPost.fechaNacimiento.substring(0,4)} años</p>
                             </div>
                             <div className="fila3">
-                                <p>{this.state.loadedPost.calle}</p>
-                                <p>{this.state.loadedPost.colonia}</p>
-                                <p>{this.state.loadedPost.numero}</p>
+                                <p>Calle:{this.state.loadedPost.calle},</p>
+                                <p>Col:{this.state.loadedPost.colonia}</p>
+                                <p># {this.state.loadedPost.numero}</p>
                                 <Button text="Cambiar status" clicked={this.cambiarStatus}/>
                             </div>
                         </div>
@@ -95,7 +95,7 @@ class FullPost extends Component {
                     <div className="regaloInfoE">
                         <div className="info">
                             <p>Regalos</p>
-                            <p>Costo total: 38989.00 $</p>
+                            <p>Costo total: 98765.00 $</p>
                             <button className="addButton" onClick={this.addRegalo}>+</button>
                         </div>
                         <div className="regalosNE">
