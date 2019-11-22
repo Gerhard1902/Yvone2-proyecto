@@ -18,10 +18,21 @@ class Card extends Component{
             costo:"",
             urlImagen:"",
             categoria:"",
-            error:""
+            error:"",
+
+            categ:[]
         }
     }
-    
+
+    componentDidMount(){
+         axios.get('https://api-mongod.herokuapp.com/categorias/'+this.props.categoria)
+          .then(response=>{
+              this.setState({categ:response.data.categoria});
+              console.log();
+          })
+          .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
+     }
+
     modalOpened2=()=>{
         if (this.state.modalOpened === true){
             this.setState({modalOpened2:false});
@@ -73,7 +84,7 @@ class Card extends Component{
                     window.location.reload(false);
             })
             .catch(this.setState({loading:false, modalOpened2:false, error:true, completed:false}));
-		this.setState({modalOpened:false});
+		    this.setState({modalOpened:false});
     }
     editarRegalo=()=>{
         this.setState({modalOpened2:true});
@@ -89,7 +100,7 @@ class Card extends Component{
                     console.log(response);
             })
             .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
-        
+
         /*this.props.history.push({
             pathname:'/categorias',
         });*/
@@ -103,9 +114,9 @@ class Card extends Component{
         }
         console.log(objeto);
         console.log("la petición");
-        axios.put('https://api-mongod.herokuapp.com/regalos/'+this.props.id,objeto)
+        axios.put('https://api-mongod.herokuapp.com/regalos/'+this.props.id,  objeto )
             .then(response=>{
-                console.log(response.data);
+
                 this.setState({modalOpened2:false});
                 window.location.reload(false);
             })
@@ -123,7 +134,8 @@ class Card extends Component{
                 <img src={this.props.imagen} className="imag"></img>
                 <div className="theRest">
                     <p className="title">{this.props.name}</p>
-                    <p className="texts">${this.props.precio}</p>     
+                    <p className="texts">{this.state.categ.nombre}</p>                    
+                    <p className="texts">${this.props.precio}</p>
                 </div>
                 <div className="dots" onClick={this.modalOpened}>
                     <div className="dot"></div>
@@ -142,7 +154,7 @@ class Card extends Component{
                 </div>
                 <div>
                     <div>Categoría: </div>
-                    <select placeholder="categoría" onChange={this.handleChange2}>
+                    <select placeholder="categoría" onChange={this.handleChange4}>
                         {this.props.lol.map((x) => <option value={x._id}>{x.nombre}</option>)}
                     </select>
                 </div>
@@ -154,7 +166,7 @@ class Card extends Component{
                     <div>Url imagen:</div>
                     <input placeholder={this.state.urlImagen} className="data"  onChange={this.handleChange3}></input>
                 </div>
-                
+
                 <div className="col">
                     <Button text="Cancelar" clicked={this.modalClosed}/>
                     <Button text="Aceptar" clicked={this.editClickedHandler}/>

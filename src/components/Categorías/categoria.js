@@ -8,6 +8,7 @@ import axios from '../../axios-petition';
 import Spinner from '../UI/Spinner/Spinner';
 import Pencil from "../../assets/pencil.jpg";
 import withErrorHandler from '../withErrorHandler/withErrorHandler';
+import { Link } from 'react-router-dom';
 import X from "../../assets/x.png";
 import "./categoria.css";
 
@@ -137,6 +138,11 @@ class Categoria extends Component{
                 {posts}
             </table>
 
+        </div>
+        <div>
+            <Link to="/regalos" className="link">
+                <Button text="< Regresar"/>
+            </Link> 
         </div>
         <Modal show={this.state.modalOpened} modalClosed={this.modalClosed}>
 		    {x}
