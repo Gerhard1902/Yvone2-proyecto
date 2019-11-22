@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import './Login.css';
 import axios from 'axios';
-//import Cookies from 'universal-cookie';
+import Cookies from 'universal-cookie';
 import Santa from '../../assets/circle_santa-512.png';
+import Alert from 'react-bootstrap/Alert';
 
-//const cookies = new Cookies();
+const cookies = new Cookies();
 
 class Login extends Component{
 
@@ -17,6 +18,7 @@ class Login extends Component{
       this.handleUserChange = this.handleUserChange.bind(this);
       this.handlePasswordChange = this.handlePasswordChange.bind(this);
       this.ContinueHandler = this.ContinueHandler.bind(this);
+      cookies.set('accessToken', '', { path: '/' });
     }
 
     handleUserChange(event) {
@@ -29,7 +31,7 @@ class Login extends Component{
 
     ContinueHandler(event){
 
-    /*  axios.post('https://api-mongod.herokuapp.com/empleados/login', {
+      axios.post('https://api-mongod.herokuapp.com/empleados/login', {
           nombre: this.state.user,
           password: this.state.password,
       }).then(res => {
@@ -38,7 +40,7 @@ class Login extends Component{
       })
       .catch((error) => {
         alert("Credenciales Incorrectas"); //Poner mensaje mas bonito
-      })*/
+      })
     }
 
 
@@ -53,14 +55,18 @@ class Login extends Component{
             <div className="okay">
                     <img src={Santa} className="santa"></img>
                     <input className="input1" placeholder="User" value={this.state.user} onChange={this.handleUserChange} />
-                    <input className="input2" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange} />
+                    <input className="input2" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange} type="password"/>
                     <button className="btn-primary" onClick={this.ContinueHandler}>Submit</button>
-                </div>
+
+            </div>
+
         </div>
 
         );
     }
 }
+
+
 
 
 export default Login;

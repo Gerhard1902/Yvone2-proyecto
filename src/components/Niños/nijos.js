@@ -18,9 +18,9 @@ class Niño extends Component{
         completed:false,
         selectedPostId:null,
         posts:[]
-        
+
         ,
-       
+
             nombre: "",
             status:false,
             calle:"",
@@ -28,10 +28,10 @@ class Niño extends Component{
             colonia: "",
             genero: false,
             fechaNacimiento:""
-    
-        
+
+
     };
- 
+
 
     componentDidMount(){
        axios.get('https://api-mongod.herokuapp.com/ninos')
@@ -41,35 +41,38 @@ class Niño extends Component{
             console.log("el estado");
             console.log(this.state.posts);
             console.log(this.state.posts.result);
-            
+
         })
         .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
         console.log(this.state.posts);
     }
     modalOpened=()=>{
         this.setState({modalOpened:true});
-	}
-	modalClosed=()=>{
-		this.setState({modalOpened:false});
+	  }
+  	modalClosed=()=>{
+  		this.setState({modalOpened:false});
     }
 
     modalClosed3=()=>{
 		this.setState({completed:false});
     }
+
     submitHandler=()=>{
         this.setState({loading:true});
-        const niño={
-            nombre: this.state.name,
+        const num = Number(this.state.numero);
+        const niño = {
+            nombre: this.state.nombre,
             status:this.state.status,
             calle:this.state.calle,
-            número:this.state.numero,
+            numero:num,
             colonia: this.state.colonia,
             genero: this.state.genero,
             fechaNacimiento: this.state.fechaNacimiento
-        }
-        axios.post('/ninos', niño)     //Hay que modificar la ruta para el servidor
+        };
+        console.log(niño);
+        axios.post('https://api-mongod.herokuapp.com/ninos/',  niño )     //Hay que modificar la ruta para el servidor
             .then(this.setState({loading:false, modalOpened:false, completed:true}))
-            .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));        
+            .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
     }
     postModified=(id)=>{
         this.setState({selectedPostId:id});
@@ -123,9 +126,9 @@ class Niño extends Component{
 
 
     render(){
-        
-        
-        
+
+
+
         let x=(
             <div>
                 <p className="niño">Agregar niño</p>
@@ -151,7 +154,7 @@ class Niño extends Component{
                             <span class="slider round"></span>
                         </label>
                         <p className="textt">malo</p>
-                    </div>   
+                    </div>
                </div>
                <div className="col">
                    <Button text="Cancelar" clicked={this.modalClosed}/>
@@ -163,12 +166,12 @@ class Niño extends Component{
             x=<Spinner/>;
         }
         const posts= this.state.posts.map(a=>{
-            return <Card imagen={Image} name={a.nombre} calle={a.calle} 
-                         numero={a.número} colonia={a.colonia} 
-                         fechaNacimiento={a.fechaNacimiento} 
-                         c2={()=>this.postModified(a._id)} 
-        />});   
-        
+            return <Card imagen={Image} name={a.nombre} calle={a.calle}
+                         numero={a.número} colonia={a.colonia}
+                         fechaNacimiento={a.fechaNacimiento}
+                         c2={()=>this.postModified(a._id)}
+        />});
+
 
         return(
             <div>
@@ -176,7 +179,7 @@ class Niño extends Component{
            <div className="otro">
              {posts}
            </div>
-            
+
                 <Modal show={this.state.modalOpened} modalClosed={this.modalClosed}>
 				    {x}
 		    	</Modal>
@@ -186,7 +189,7 @@ class Niño extends Component{
                     </div>
 		    	</Modal>
             </div>
-            
+
         );
     }
 }
