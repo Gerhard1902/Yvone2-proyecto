@@ -14,6 +14,7 @@ class Regalo2 extends Component{
         error:false,
         completed:false,
         selectedPostId:null,
+        categ:[],
         posts:[],
             nombre:"",
             costo:"",
@@ -26,8 +27,14 @@ class Regalo2 extends Component{
              this.setState({posts:response.data.result});
          })
          .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
+
+         axios.get('https://api-mongod.herokuapp.com/categorias')
+          .then(response=>{
+              this.setState({categ:response.data.result});
+          })
+          .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
      }
-     
+
      submitHandler=()=>{
         this.setState({loading:true});
         const num = Number(this.state.numero);
@@ -36,9 +43,8 @@ class Regalo2 extends Component{
             costo:this.state.costo,
             urlImagen:this.state.urlImagen,
             categoria:this.state.categoria,
-           
         };
-        axios.post('regalos/',  reg )     //Hay que modificar la ruta para el servidor
+        axios.post('https://api-mongod.herokuapp.com/regalos/',  reg )     //Hay que modificar la ruta para el servidor
             .then(this.setState({loading:false, modalOpened:false, completed:true}))
             .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
     }
@@ -54,12 +60,12 @@ class Regalo2 extends Component{
     }
     handleChange3=(event)=>{
         this.setState({"urlImagen": event.target.value});
-        console.log(this.state.calle);
+        console.log(event.target.value);
 
     }
     handleChange4=(event)=>{
         this.setState({"categoria": event.target.value});
-        console.log(this.state.numero);
+        console.log(this.state.categoria);
 
     }
 
@@ -69,7 +75,7 @@ class Regalo2 extends Component{
 	modalClosed=()=>{
 		this.setState({modalOpened:false});
     }
-    submitHandler=()=>{
+    submithandler=()=>{
         alert("submitted");
 		this.setState({modalOpened:false});
     }
@@ -81,12 +87,11 @@ class Regalo2 extends Component{
     render(){
         let x=(
             <div>
-                
+
                 <p className="niño">Agregar Regalo</p>
                 <input placeholder="Nombre" className="data" onChange={this.handleChange}></input>
                 <select placeholder="categoría" onChange={this.handleChange2}>
-                    <option>ok</option>
-
+                    {this.state.categ.map((x) => <option value={x._id}>{x.nombre}</option>)}
                 </select>
                 <input placeholder="Precio" type="number" className="data" onChange={this.handleChange2}></input>
                 <input placeholder="Url imagen" className="data" onChange={this.handleChange3}></input>
@@ -101,7 +106,7 @@ class Regalo2 extends Component{
             x=<Spinner/>;
         }
         const posts= this.state.posts.map(a=>{
-            return <Card imagen={a.urlImagen} name={a.nombre} 
+            return <Card imagen={a.urlImagen} name={a.nombre}
                         precio={a.costo}
         />});
 
