@@ -17,7 +17,9 @@ class Usuarios extends Component{
         posts:[]
         ,
             nombre: "",
-            link:""
+            link:"",
+            password: "",
+            password2:""
     }
     componentDidMount(){
         axios.get('https://api-mongod.herokuapp.com/empleados')
@@ -26,6 +28,42 @@ class Usuarios extends Component{
          })
          .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
      }
+     
+    handleChange=(event)=>{
+        this.setState({"nombre": event.target.value});
+        console.log(this.state.nombre);
+
+    }
+    handleChange2=(event)=>{
+        this.setState({"link": event.target.value});
+        console.log(event.target.value);
+
+    }
+    handleChange3=(event)=>{
+        this.setState({"password": event.target.value});
+        console.log(this.state.nombre);
+
+    }
+    handleChange4=(event)=>{
+        this.setState({"password2": event.target.value});
+        console.log(event.target.value);
+
+    }
+
+    submitHandler=()=>{
+        this.setState({loading:true});
+        const num = Number(this.state.numero);
+        const reg = {
+            nombre: this.state.nombre,
+            fotoPerfil:this.state.link,
+            password:this.state.password,
+           
+        };
+        axios.post('regalos/',  reg )     //Hay que modificar la ruta para el servidor
+            .then(this.setState({loading:false, modalOpened:false, completed:true}))
+            .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
+    }
+
 
     modalOpened=()=>{
         this.setState({modalOpened:true});
@@ -43,10 +81,12 @@ class Usuarios extends Component{
             <div>
                 
                 <p className="niño">Agregar Usuario</p>
-                <button class="dropbtn">Seleccionar foto de perfil</button>
-                <input placeholder="Nombre Completo" className="data"></input>
-                <input placeholder="Password" className="data"></input>
-                <input placeholder="Confirmar Password" className="data"></input>
+                <input type="text"  className="data"
+                    placeholder="Url de foto de perfil"
+                    onChange={this.handleChange2}></input>
+                <input placeholder="Nombre Completo" className="data" onChange={this.handleChange}></input>
+                <input placeholder="Password" className="data" onChange={this.handleChange3}></input>
+                <input placeholder="Confirmar Password" className="data" onChange={this.handleChange} onChange={this.handleChange4}></input>
                 <div className="col">
                    <Button text="Cancelar" clicked={this.modalClosed}/>
                    <Button text="Aceptar" clicked={this.submitHandler}/>

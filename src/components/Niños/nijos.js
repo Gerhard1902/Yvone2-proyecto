@@ -70,7 +70,7 @@ class Niño extends Component{
             fechaNacimiento: this.state.fechaNacimiento
         };
         console.log(niño);
-        axios.post('https://api-mongod.herokuapp.com/ninos/',  niño )     //Hay que modificar la ruta para el servidor
+        axios.post('ninos/',  niño )     //Hay que modificar la ruta para el servidor
             .then(this.setState({loading:false, modalOpened:false, completed:true}))
             .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
     }
