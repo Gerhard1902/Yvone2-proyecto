@@ -18,9 +18,7 @@ class Niño extends Component{
         completed:false,
         selectedPostId:null,
         posts:[]
-
         ,
-
             nombre: "",
             status:false,
             calle:"",

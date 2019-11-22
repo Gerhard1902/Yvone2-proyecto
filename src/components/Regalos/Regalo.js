@@ -117,6 +117,7 @@ class Regalo2 extends Component{
         const posts= this.state.posts.map(a=>{
             return <Card imagen={a.urlImagen} name={a.nombre}
                         precio={a.costo}
+                        categoria={a.categoria}
                         handleChange= {this.handleChange}
                         handleChange2= {this.handleChange2}
                         handleChange3= {this.handleChange3}
