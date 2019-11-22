@@ -49,6 +49,9 @@ class Regalo2 extends Component{
             <div>
         <Image link={Regalo} text="Catálogo de regalos" click={this.modalOpened} click2={this.ContinueHandler} button="Categorías"/>
         <Card imagen={Regalo}></Card>
+        <Card imagen={Regalo}></Card>
+        <Card imagen={Regalo}></Card>
+        <Card imagen={Regalo}></Card>
         <Modal show={this.state.modalOpened} modalClosed={this.modalClosed}>
 		    {x}
 		</Modal>

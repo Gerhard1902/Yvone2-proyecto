@@ -45,3 +45,11 @@
     color:gray;
     margin-top: -10px;
 }
+.btnOptions{
+    display: flex;
+    flex-direction: column;
+}
+.botones{
+    color:gray;
+    font-size: 16px;
+}

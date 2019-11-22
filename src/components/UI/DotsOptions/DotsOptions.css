@@ -1,0 +1,11 @@
+.DotsOptions {
+    position: relative;
+    z-index: 1000;
+    background-color: white;
+    width: 100px;
+    border: 1px;
+    padding: 0px;
+    right: 66px;
+    bottom: 45px;
+    font-style: initial;
+}
