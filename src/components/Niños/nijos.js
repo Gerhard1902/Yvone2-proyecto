@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect } from 'react';
 import Regalo from '../../assets/bear.jpg';
 import Image from '../Image2/Image';
 import Card from '../Cards2/Card';
@@ -20,7 +20,7 @@ class Niño extends Component{
         posts:[]
         ,
             nombre: "",
-            status:false,
+            status:true,
             calle:"",
             número:"",
             colonia: "",
@@ -28,8 +28,9 @@ class Niño extends Component{
             fechaNacimiento:"",
         textBuscar:'',
         postsBackup:[],
-        navidad:""
+        navidad:""        
     };
+
 
 
     componentDidMount(){
@@ -48,6 +49,27 @@ class Niño extends Component{
         })
         .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
         console.log(this.state.posts);
+        this.asignarRegalo();
+    }
+
+    asignarRegalo=()=>{
+
+      if(this.state.idNin!=""){
+        console.log("verificando")
+        console.log(this.state.status);
+        if(this.state.status === false){
+          axios.post('https://api-mongod.herokuapp.com/ninosregalos/',{idNino:this.state.idNin, idRegalo:"5dd966aab0218800170e76bd"})
+            .then((r) =>{
+              alert("Asignacion Exitosa");
+              this.setState({status: true});
+              this.setState({loading:false, modalOpened:false, completed:true});
+              window.location.reload(false)
+            }
+            )
+            .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
+        }
+      }
+
     }
     modalOpened=()=>{
         this.setState({modalOpened:true});
@@ -78,13 +100,37 @@ class Niño extends Component{
         let añoActual = v.getFullYear();
         let añoNiño = añoActual-año;
 
+
         if(añoNiño <= 11 && añoNiño >= 2){
           axios.post('https://api-mongod.herokuapp.com/ninos/',  niño )
           .then((r) =>{
+            console.log(r.data.nino._id);
+            console.log(r.data.nino.status);
             alert("Registro Exitoso");
-            console.log(r);
-            this.setState({loading:false, modalOpened:false, completed:true});
-            window.location.reload(false)
+            if(r.data.nino.status === true){
+              console.log("pues hazlo");
+              this.setState({loading:false, modalOpened:false, completed:true});
+              window.location.reload(false)
+            }
+            this.setState({idNin:r.data.nino._id});
+
+              console.log("HOLA");
+
+                console.log("verificando")
+                console.log(r.data.nino.status);
+                if(r.data.nino.status === false){
+                  axios.post('https://api-mongod.herokuapp.com/ninosregalos/',{idNino:r.data.nino._id, idRegalo:"5dd966aab0218800170e76bd"})
+                    .then((r) =>{
+                      alert("Asignacion Exitosa");
+                      this.setState({status: true});
+                      this.setState({loading:false, modalOpened:false, completed:true});
+                      window.location.reload(false)
+                    }
+                    )
+                    .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
+                }
+
+
           }
           )
           .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
@@ -168,6 +214,7 @@ class Niño extends Component{
     }
 
     render(){
+
         let x=(
             <div>
                 <p className="niño">Agregar niño</p>
@@ -198,6 +245,7 @@ class Niño extends Component{
                <div className="col">
                    <Button text="Cancelar" clicked={this.modalClosed}/>
                    <Button text="Aceptar" clicked={this.submitHandler}/>
+
                </div>
             </div>
         );
