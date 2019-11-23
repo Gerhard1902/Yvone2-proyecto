@@ -68,19 +68,24 @@ class Usuarios extends Component{
             password:this.state.password,
 
         };
-        if(this.state.password != this.state.password2){
-          alert("Contraseñas no cuadran"); //Favor de dar formato que yo no se como hacerlo bonito jeje
-        }
-        else {
-          axios.post('https://api-mongod.herokuapp.com/empleados/',  reg )     //Hay que modificar la ruta para el servidor
-              .then(
-                this.setState({loading:false, modalOpened:false, completed:true}),
-                window.location.reload(false)
-              )
-              .catch(
-                this.setState({loading:false, modalOpened:false, error:true, completed:false}),                
-              );
-        }
+        console.log(reg);
+        // if(this.state.password != this.state.password2){
+        //   alert("Contraseñas no cuadran"); //Favor de dar formato que yo no se como hacerlo bonito jeje
+        // }
+        // else {
+        //
+        // }
+        axios.post('https://api-mongod.herokuapp.com/empleados',  reg )     //Hay que modificar la ruta para el servidor
+          .then((r) =>{
+            alert("Registro Exitoso");
+            this.setState({loading:false, modalOpened:false, completed:true});
+            window.location.reload(false)
+          }
+
+          )
+          .catch(
+            this.setState({loading:false, modalOpened:false, error:true, completed:false}),
+          );
 
     }
 
