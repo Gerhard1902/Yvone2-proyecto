@@ -17,6 +17,8 @@ class Card2 extends Component{
         costo:"",
         urlImagen:"",
         categoria:"",
+        genero:"",
+        status:this.props.status
     }
     modalOpened2=()=>{
         if (this.state.modalOpened === true){
@@ -40,9 +42,10 @@ class Card2 extends Component{
     }
 
     changeStatusHandler=()=>{
-        const est = !this.props.status;
-        axios.put('https://api-mongod.herokuapp.com/ninos/'+ this.props.id,  { status: est } )     //Hay que modificar la ruta para el servidor
-            .then(r => console.log(r.status), window.location.reload(false))
+        const est = !this.state.status;
+        this.setState({"status": !this.state.status});
+        axios.put('https://api-mongod.herokuapp.com/ninos/'+ this.props.id,  { status: !this.state.status } )     //Hay que modificar la ruta para el servidor
+            .then(r => console.log(r), )
             .catch(e => console.log(e));
     }
 
@@ -185,7 +188,7 @@ class Card2 extends Component{
                     <div className="toggle">
                         <p className="textt">niño</p>
                         <label class="switch">
-                            <input  type="checkbox" value={this.state.genero} onChange={this.handleChange6}></input>
+                            <input  type="checkbox" defaultChecked={this.state.genero} onChange={this.handleChange7}></input>
                             <span class="slider round"></span>
                         </label>
                         <p className="textt">niña</p>
@@ -193,7 +196,7 @@ class Card2 extends Component{
                     <div className="toggle">
                         <p className="textt">bueno</p>
                         <label class="switch">
-                            <input value={this.state.nombre} type="checkbox" onChange={this.handleChange7}></input>
+                            <input defaultChecked={this.state.status} type="checkbox" onChange={this.handleChange6}></input>
                             <span class="slider round"></span>
                         </label>
                         <p className="textt">malo</p>

@@ -35,11 +35,6 @@ class Niño extends Component{
        axios.get('https://api-mongod.herokuapp.com/ninos')
         .then(response=>{
             this.setState({posts:response.data.result});
-            console.log(response.data);
-            console.log("el estado");
-            console.log(this.state.posts);
-            console.log(this.state.posts.result);
-
         })
         .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
         console.log(this.state.posts);
