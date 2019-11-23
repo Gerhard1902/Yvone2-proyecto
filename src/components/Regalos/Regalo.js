@@ -7,7 +7,7 @@ import axios from '../../axios-petition';
 import Spinner from '../UI/Spinner/Spinner';
 import Button from '../UI/Button/Button';
 import withErrorHandler from '../withErrorHandler/withErrorHandler';
-
+import './Regalo.css';
 
 class Regalo2 extends Component{
     state={
@@ -22,12 +22,18 @@ class Regalo2 extends Component{
             nombre:"",
             costo:"",
             urlImagen:"",
-            categoria:""
+            categoria:"",
+        textBuscar:'',
+        postsBackup:[],
     }
     componentDidMount(){
         axios.get('https://api-mongod.herokuapp.com/regalos')
          .then(response=>{
-             this.setState({posts:response.data.result});
+             this.setState({
+                 posts:response.data.result,
+                 postsBackup:response.data.result,
+                 key: response.data.result.nombre
+            });
          })
          .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
 
@@ -95,6 +101,27 @@ class Regalo2 extends Component{
         console.log(this.state.selectedPostId);
     }
 
+    filter(event){
+        console.log(event.target.value);
+        //Obtine datos de la barra
+        var text = event.target.value;
+        //Obtiene datos de nuestros posts
+        const data = this.state.postsBackup;
+
+        const newData = data.filter(function(item){
+            //Obtenemos el nombre del post
+            const itemData = item.nombre.toUpperCase()
+            //Obtenemos el texto de lo que buscamos
+            const textData = text.toUpperCase()
+            return itemData.indexOf(textData) > -1
+        });
+
+        this.setState({
+            posts: newData,
+            textBuscarext: text,
+        })
+    }
+
     render(){
         let x=(
             <div>
@@ -129,6 +156,7 @@ class Regalo2 extends Component{
         return(
             <div>
         <Image link={Regalo} text="Catálogo de regalos" click={this.modalOpened} click2={this.ContinueHandler} button="Categorías"/>
+        <input type="search" className="searchBar" placeholder="Buscar..." value={this.state.text} onChange={(text) => this.filter(text)}/>
         <div className="otro">
              {posts}
            </div>
