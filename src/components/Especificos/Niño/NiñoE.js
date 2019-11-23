@@ -121,10 +121,11 @@ class FullPost extends Component {
     }
 
     cambiarStatus=()=>{
-        console.log("Voy a cambiar status del niño");
-        this.setState({
-            status: !this.state.status,
-        })
+      const est = !this.state.status;
+      this.setState({"status": !this.state.status});
+      axios.put('https://api-mongod.herokuapp.com/ninos/'+ this.props.match.params.id,  { status: !this.state.status } )     //Hay que modificar la ruta para el servidor
+          .then(r => console.log(r), )
+          .catch(e => console.log(e));
     }
     modalOpened=()=>{
         this.setState({modalOpened:true});

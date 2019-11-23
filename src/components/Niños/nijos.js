@@ -72,16 +72,30 @@ class Niño extends Component{
             genero: this.state.genero,
             fechaNacimiento: this.state.fechaNacimiento
         };
-        console.log(niño);
-        axios.post('https://api-mongod.herokuapp.com/ninos/',  niño )     //Hay que modificar la ruta para el servidor
-        .then((r) =>{
+
+        let año = niño.fechaNacimiento.substring(0,4);
+        let v=new Date();
+        let añoActual = v.getFullYear();
+        let añoNiño = añoActual-año;
+
+        if(añoNiño <= 11 && añoNiño >= 2){
+          axios.post('https://api-mongod.herokuapp.com/ninos/',  niño )
+          .then((r) =>{
             alert("Registro Exitoso");
+            console.log(r);
             this.setState({loading:false, modalOpened:false, completed:true});
             window.location.reload(false)
           }
           )
-            .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
+          .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
+
+        }
+        else {
+          alert("Niño no tiene la edad requerida");
+          window.location.reload(false)
+        }
     }
+
     postModified=(id)=>{
         this.setState({selectedPostId:id});
         console.log(this.state.selectedPostId);
