@@ -6,9 +6,11 @@ import Modal from '../UI/Modal/Modal';
 import Button from '../UI/Button/Button';
 import axios from '../../axios-petition';
 import Spinner from '../UI/Spinner/Spinner';
+import './user.css';
 
 class Usuarios extends Component{
     state={
+        key:'',
         modalOpened:false,
         loading:false,
         error:false,
@@ -19,12 +21,19 @@ class Usuarios extends Component{
             nombre: "",
             link:"",
             password: "",
-            password2:""
+            password2:"",
+        textBuscar:'',
+        postsBackup:[],
     }
     componentDidMount(){
         axios.get('https://api-mongod.herokuapp.com/empleados')
          .then(response=>{
-             this.setState({posts:response.data.result});
+             this.setState({
+                posts:response.data.result,
+                postsBackup:response.data.result,
+                key: response.data.result.nombre
+            });
+            console.log(this.state.posts);
          })
          .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
      }
@@ -84,6 +93,27 @@ class Usuarios extends Component{
 		this.setState({modalOpened:false});
     }
 
+    filter(event){
+        console.log(event.target.value);
+        //Obtine datos de la barra
+        var text = event.target.value;
+        //Obtiene datos de nuestros posts
+        const data = this.state.postsBackup;
+
+        const newData = data.filter(function(item){
+            //Obtenemos el nombre del post
+            const itemData = item.nombre.toUpperCase()
+            //Obtenemos el texto de lo que buscamos
+            const textData = text.toUpperCase()
+            return itemData.indexOf(textData) > -1
+        });
+
+        this.setState({
+            posts: newData,
+            textBuscarext: text,
+        })
+    }
+
     render(){
         let x=(
             <div>
@@ -112,6 +142,7 @@ class Usuarios extends Component{
         return(
             <div>
                 <Image link={Regalo} click={this.modalOpened}  text="Lista de usuarios"/>
+                <input type="search" className="searchBar" placeholder="Buscar..." value={this.state.text} onChange={(text) => this.filter(text)}/>
                 <div className="otro">
                     {posts}
                 </div>
