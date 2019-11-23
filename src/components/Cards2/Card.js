@@ -209,7 +209,7 @@ class Card2 extends Component{
                 <input placeholder={this.state.nombre} className="data" onChange={this.handleChange}></input>
             </div>
                 <input value={this.state.fechaNacimiento} type="date"
-                     className="data" onChange={this.handleChange2}></input>
+                     className="data" onChange={this.handleChange2} min="2008-01-01" max="2017-12-31"></input>
                 <input placeholder={this.state.calle} className="data" onChange={this.handleChange3}></input>
                 <input placeholder={this.state.numero} className="data" type="number" onChange={this.handleChange4}></input>
                 <input placeholder={this.state.colonia} className="data" onChange={this.handleChange5}></input>

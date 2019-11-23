@@ -128,7 +128,7 @@ class Usuarios extends Component{
                     placeholder="Url de foto de perfil"
                     onChange={this.handleChange2}></input>
                 <input placeholder="Nombre Completo" className="data" onChange={this.handleChange}></input>
-                <input placeholder="Password" className="data" onChange={this.handleChange3}></input>
+                <input type="password" placeholder="Password" className="data" onChange={this.handleChange3}></input>
                 <input placeholder="Confirmar Password" className="data" onChange={this.handleChange} onChange={this.handleChange4}></input>
                 <div className="col">
                    <Button text="Cancelar" clicked={this.modalClosed}/>

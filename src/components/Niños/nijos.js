@@ -74,13 +74,12 @@ class Niño extends Component{
         };
         console.log(niño);
         axios.post('https://api-mongod.herokuapp.com/ninos/',  niño )     //Hay que modificar la ruta para el servidor
-            .then(
-              this.setState(
-              {loading:false, modalOpened:false, completed:true}),
-              alert("Registro Exitoso"),//Favor de dar formato que yo no se como hacerlo bonito jeje
-              window.location.reload(false)
-
-              )
+        .then((r) =>{
+          alert("Registro Exitoso");
+          this.setState({loading:false, modalOpened:false, completed:true});
+          window.location.reload(false)
+        }
+        )
             .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
     }
     postModified=(id)=>{
@@ -153,7 +152,7 @@ class Niño extends Component{
             textBuscarext: text,
         })
     }
-    
+
     render(){
         //10 24 dic hasta 12 del 25
         /*let navidad= new Date;
