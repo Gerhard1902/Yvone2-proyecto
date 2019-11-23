@@ -25,16 +25,25 @@ class Niño extends Component{
             número:"",
             colonia: "",
             genero: false,
-            fechaNacimiento:""
-
-
+            fechaNacimiento:"",
+        textBuscar:'',
+        postsBackup:[],
     };
 
 
     componentDidMount(){
        axios.get('https://api-mongod.herokuapp.com/ninos')
         .then(response=>{
-            this.setState({posts:response.data.result});
+            this.setState({
+                posts:response.data.result,
+                postsBackup:response.data.result,
+                key: response.data.result.nombre
+            });
+            console.log(response.data);
+            console.log("el estado");
+            console.log(this.state.posts);
+            console.log(this.state.posts.result);
+
         })
         .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
         console.log(this.state.posts);
@@ -121,7 +130,27 @@ class Niño extends Component{
     }*/
 	}
 
+    filter(event){
+        console.log(event.target.value);
+        //Obtine datos de la barra
+        var text = event.target.value;
+        //Obtiene datos de nuestros posts
+        const data = this.state.postsBackup;
 
+        const newData = data.filter(function(item){
+            //Obtenemos el nombre del post
+            const itemData = item.nombre.toUpperCase()
+            //Obtenemos el texto de lo que buscamos
+            const textData = text.toUpperCase()
+            return itemData.indexOf(textData) > -1
+        });
+
+        this.setState({
+            posts: newData,
+            textBuscarext: text,
+        })
+    }
+    
     render(){
 
 
@@ -175,9 +204,10 @@ class Niño extends Component{
         return(
             <div>
                 <Image link={Regalo} click={this.modalOpened} text="Lista de niños buenos y malos" />
-           <div className="otro">
-             {posts}
-           </div>
+                <input type="search" className="searchBar" placeholder="Buscar..." value={this.state.text} onChange={(text) => this.filter(text)}/>
+                <div className="otro">
+                    {posts}
+                </div>
 
                 <Modal show={this.state.modalOpened} modalClosed={this.modalClosed}>
 				    {x}

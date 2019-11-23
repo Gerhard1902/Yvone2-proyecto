@@ -26,8 +26,8 @@ class Card2 extends Component{
         } else {
             this.setState({modalOpened2:true});
         }
-	}
-	modalClosed2=()=>{
+	 }
+	 modalClosed2=()=>{
         this.setState({modalOpened2:false});
     }
     modalOpened=()=>{
@@ -56,7 +56,7 @@ class Card2 extends Component{
                     window.location.reload(false);
             })
             .catch(this.setState({loading:false, modalOpened2:false, error:true, completed:false}));
-		this.setState({modalOpened:false});
+		    this.setState({modalOpened:false});
     }
     handleChange=(event)=>{
         this.setState({"nombre": event.target.value});

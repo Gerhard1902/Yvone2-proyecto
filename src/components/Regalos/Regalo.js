@@ -114,6 +114,7 @@ class Regalo2 extends Component{
         if (this.state.loading){
             x=<Spinner/>;
         }
+        console.log(this.state.posts);
         const posts= this.state.posts.map(a=>{
             return <Card imagen={a.urlImagen} name={a.nombre}
                         precio={a.costo}
