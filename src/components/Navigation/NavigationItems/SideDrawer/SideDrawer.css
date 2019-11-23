@@ -12,6 +12,9 @@
     transition: transform 0.3 ease-out;
     transform: translateX(0);
 }
+.m{
+    color: white;
+}
 .close{
     position: fixed;
     width: 280px;

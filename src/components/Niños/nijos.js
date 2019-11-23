@@ -76,8 +76,10 @@ class Niño extends Component{
             .then(
               this.setState(
               {loading:false, modalOpened:false, completed:true}),
-              alert("Registro Exitoso")//Favor de dar formato que yo no se como hacerlo bonito jeje
-            )
+              alert("Registro Exitoso"),//Favor de dar formato que yo no se como hacerlo bonito jeje
+              window.location.reload(false)
+
+              )
             .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
     }
     postModified=(id)=>{
