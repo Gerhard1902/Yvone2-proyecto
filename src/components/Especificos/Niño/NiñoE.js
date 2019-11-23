@@ -12,7 +12,8 @@ class FullPost extends Component {
         status: true,
         loadedPost:null,
         ninoRegalo:[],
-        ninoEspecifico:[""]
+        ninoEspecifico:[],
+        index:0
     }
 
     changeStatusHandler=()=>{
@@ -41,6 +42,7 @@ class FullPost extends Component {
               });
 
               this.setState({ninoEspecifico:ninoEsp});
+
             })
             .catch(e => console.log(e));
 
@@ -50,6 +52,24 @@ class FullPost extends Component {
       componentDidUpdate() {
         console.log("prueba");
         console.log(this.state.ninoEspecifico);
+        let costo = 0;
+        if(this.state.ninoEspecifico){
+          console.log("HOLA");
+          let vamos = this.state.ninoEspecifico.map(function( obj ) {
+            axios.get("https://api-mongod.herokuapp.com/regalos/"+obj)
+            .then(response=>{
+              console.log("costo solo")
+              console.log(response.data.regalo.costo);
+              if(costo != 'undefined'){
+                console.log("metiendo");
+                return response.data.regalo.costo;
+              }
+            })
+            .catch(e => console.log(e));
+          });
+          console.log("total");
+          console.log(vamos);
+        }
       }
 
     deletePostHandler=()=>{
@@ -88,7 +108,11 @@ class FullPost extends Component {
         valor = response.data.regalo.nombre;
         console.log("ahora el nombre");
         console.log(valor);
-        return valor;
+        document.getElementById(this.state.index).innerHTML = valor;
+        let v = this.state.index +1;
+        this.setState({
+          index: v
+        });
 
       })
       .catch(e => console.log(e));
@@ -150,7 +174,7 @@ class FullPost extends Component {
                         <div className="info">
                             <p>Regalos</p>
                             <ul>
-                              {this.state.ninoEspecifico.map((x) => <li>{this.nombreRegalo(x)}</li>)}
+                              {this.state.ninoEspecifico.map((x,index) => <li id={index}>{this.nombreRegalo(x)}</li>)}
 
                             </ul>
                             <p>Costo total: 98765.00 $</p>
