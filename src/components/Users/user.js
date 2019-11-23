@@ -129,7 +129,11 @@ class Usuarios extends Component{
                     onChange={this.handleChange2}></input>
                 <input placeholder="Nombre Completo" className="data" onChange={this.handleChange}></input>
                 <input type="password" placeholder="Password" className="data" onChange={this.handleChange3}></input>
+<<<<<<< HEAD
                 <input type="password" placeholder="Confirmar Password" className="data" onChange={this.handleChange} onChange={this.handleChange4}></input>
+=======
+                <input placeholder="Confirmar Password" className="data" onChange={this.handleChange} onChange={this.handleChange4}></input>
+>>>>>>> 3cb4b09e444c5b7e7feae37eb130af698f5fd460
                 <div className="col">
                    <Button text="Cancelar" clicked={this.modalClosed}/>
                    <Button text="Aceptar" clicked={this.submitHandler}/>
