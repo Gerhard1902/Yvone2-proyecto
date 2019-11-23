@@ -155,19 +155,6 @@ class Niño extends Component{
     }
     
     render(){
-        //10 24 dic hasta 12 del 25
-        /*let navidad= new Date;
-        if ( navidad.getDate()==24 && navidad.getHours()>=10 && navidad.getMonth()==11){
-            if ( navidad.getDate()==25 && navidad.getHours()<=23 && navidad.getMonth()==11){
-                alert ("navidad");
-                let moodNavidad = ();
-            }
-        }
-        else {
-            alert ("no es navidad"+ navidad.getDate());
-        }*/
-
-
         let x=(
             <div>
                 <p className="niño">Agregar niño</p>

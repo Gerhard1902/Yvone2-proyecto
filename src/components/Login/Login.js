@@ -56,7 +56,7 @@ class Login extends Component{
                     <img src={Santa} className="santa"></img>
                     <input className="input1" placeholder="User" value={this.state.user} onChange={this.handleUserChange} />
                     <input className="input2" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange} type="password"/>
-                    <button className="btn-primary" onClick={this.ContinueHandler}>Submit</button>
+                    <button className="btn-primary" onClick={this.ContinueHandler}>Login</button>
 
             </div>
 
