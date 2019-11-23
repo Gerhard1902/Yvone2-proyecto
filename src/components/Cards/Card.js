@@ -32,13 +32,13 @@ class Card extends Component{
                 this.setState({categ:response.data.categoria});
               }
               else{
-                this.setState({categ:"sin categoria"});
+                this.setState({categ:{nombre:"Sin Categoria"}});
               }
               console.log("veamos");
           })
           .catch(error=>{
             this.setState({loading:false, modalOpened:false, error:true, completed:false});
-            this.setState({categ:"sin categoria"});
+            this.setState({categ:{nombre:"Sin Categoria"}});
           })
 
      }
