@@ -53,11 +53,14 @@ class Regalo2 extends Component{
             urlImagen:this.state.urlImagen,
             categoria:this.state.categoria,
         };
-        axios.post('https://api-mongod.herokuapp.com/regalos/',  reg )     //Hay que modificar la ruta para el servidor
-            .then(res=>{
-                this.setState({loading:false, modalOpened:false, completed:true})
-                window.location.reload(false);
-            })
+        console.log(reg);
+        axios.post('https://api-mongod.herokuapp.com/regalos',  reg )     //Hay que modificar la ruta para el servidor
+            .then((r) =>{
+              alert("Registro Exitoso");
+              this.setState({loading:false, modalOpened:false, completed:true});
+              window.location.reload(false)
+            }
+            )
             .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
     }
      handleChange=(event)=>{
@@ -87,10 +90,7 @@ class Regalo2 extends Component{
 	modalClosed=()=>{
 		this.setState({modalOpened:false});
     }
-    submithandler=()=>{
-        alert("submitted");
-		this.setState({modalOpened:false});
-    }
+
     ContinueHandler=()=>{
     this.props.history.push({
         pathname:'/categorias',
@@ -127,7 +127,7 @@ class Regalo2 extends Component{
             <div>
                 <p className="niño">Agregar Regalo</p>
                 <input placeholder="Nombre" className="data" onChange={this.handleChange}></input>
-                <select placeholder="categoría" onChange={this.handleChange2}>
+                <select placeholder="categoría" onChange={this.handleChange4}>
                     {this.state.categ.map((x) => <option value={x._id}>{x.nombre}</option>)}
                 </select>
                 <input placeholder="Precio" type="number" className="data" onChange={this.handleChange2}></input>

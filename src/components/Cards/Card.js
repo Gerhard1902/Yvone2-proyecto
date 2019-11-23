@@ -134,7 +134,7 @@ class Card extends Component{
                 <img src={this.props.imagen} className="imag"></img>
                 <div className="theRest">
                     <p className="title">{this.props.name}</p>
-                    <p className="texts">{this.state.categ.nombre}</p>                    
+                    <p className="texts">{this.state.categ.nombre}</p>
                     <p className="texts">${this.props.precio}</p>
                 </div>
                 <div className="dots" onClick={this.modalOpened}>
