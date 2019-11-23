@@ -109,11 +109,14 @@ class FullPost extends Component {
     }
 
     sHandler=()=>{
-        console.log(this.props.id+ " "+this.state.index)
-        axios.post('https://api-mongod.herokuapp.com/ninosregalos',{idNino:this.props.id, idRegalo:this.state.index})
-            .then(response=>{
-                this.setState({modalOpened:false});
-            })
+        console.log(this.props.match.params.id+ " "+this.state.index)
+        axios.post('https://api-mongod.herokuapp.com/ninosregalos',{idNino:this.props.match.params.id, idRegalo:this.state.index})
+            .then((r) =>{
+              alert("Registro Exitoso");
+              this.setState({loading:false, modalOpened:false, completed:true});
+              window.location.reload(false)
+            }
+            )
             .catch(this.setState({modalOpened:false, error:true}));
     }
 
