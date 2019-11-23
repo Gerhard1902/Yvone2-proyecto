@@ -9,24 +9,24 @@ import Pencil from '../../../assets/pencil.jpg';
 
 class FullPost extends Component {
     state={
-        status: this.props.status,
+        status: true,
         loadedPost:null
     }
-    
+
     changeStatusHandler=()=>{
         this.setState({status:!this.state.status});
     }
 
     componentDidMount(){
-               
-                axios.get("https://api-mongod.herokuapp.com/ninos/"+this.props.match.params.id)
-                .then(response=>{
-                this.setState({loadedPost:response.data.nino}); 
-                
+
+            axios.get("https://api-mongod.herokuapp.com/ninos/"+this.props.match.params.id)
+            .then(response=>{
+              console.log(response);
+            this.setState({loadedPost:response.data.nino});
+            this.setState({status:response.data.nino.status})
             });
-            
         }
-    
+
     deletePostHandler=()=>{
 
         axios.delete('/posts/'+ this.props.id)
@@ -34,10 +34,15 @@ class FullPost extends Component {
     }
 
     cambiarStatus=()=>{
-        console.log("Voy a cambiar status del niño");
-        this.setState({
-            status: !this.state.status,
-        })
+      console.log(this.state.loadedPost.status);
+      const est = !this.state.loadedPost.status;
+      console.log(est);
+      axios.put('https://api-mongod.herokuapp.com/ninos/'+ this.props.match.params.id,  { status: est } )     //Hay que modificar la ruta para el servidor
+          .then(response=>{
+                  console.log(response);
+                  window.location.reload(false);
+          })
+          .catch(e => console.log(e));
     }
 
     editarNinoE=()=>{
@@ -49,6 +54,9 @@ class FullPost extends Component {
     }
 
     render () {
+      console.log(this.state.loadedPost);
+
+      console.log(this.props.match.params.id);
         let y;
         if (this.state.status){
             y="bueno";
@@ -57,12 +65,13 @@ class FullPost extends Component {
         }
         let st;
         if (this.loadedPost){
+            console.log(this.loadedPost.nombre);
             if (this.loadedPost.genero === true){
                 st="niño";
             }
-            else st="niña"; 
+            else st="niña";
         }
-        
+
         let post = <p style={{textAlign:'center'}}>Please select a Post!</p>;
         let v=new Date();
         if (this.props.id){
@@ -104,7 +113,7 @@ class FullPost extends Component {
                     <div>
                         <Link to="/niños" className="link">
                             <Button text="< Regresar"/>
-                        </Link> 
+                        </Link>
                     </div>
                 </div>
             );

@@ -24,8 +24,8 @@ class Card2 extends Component{
         } else {
             this.setState({modalOpened2:true});
         }
-	}
-	modalClosed2=()=>{
+	 }
+	 modalClosed2=()=>{
         this.setState({modalOpened2:false});
     }
     modalOpened=()=>{
@@ -40,9 +40,14 @@ class Card2 extends Component{
     }
 
     changeStatusHandler=()=>{
-        const est = !this.props.status;
+        const est = !this.state.status;
+        console.log(est);
+        console.log(this.props.id);
         axios.put('https://api-mongod.herokuapp.com/ninos/'+ this.props.id,  { status: est } )     //Hay que modificar la ruta para el servidor
-            .then(r => console.log(r.status), window.location.reload(false))
+            .then(response=>{
+                    console.log(response);
+                    window.location.reload(false);
+            })
             .catch(e => console.log(e));
     }
 
@@ -53,7 +58,7 @@ class Card2 extends Component{
                     window.location.reload(false);
             })
             .catch(this.setState({loading:false, modalOpened2:false, error:true, completed:false}));
-		this.setState({modalOpened:false});
+		    this.setState({modalOpened:false});
     }
     handleChange=(event)=>{
         this.setState({"nombre": event.target.value});
