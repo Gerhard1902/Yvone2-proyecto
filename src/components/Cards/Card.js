@@ -27,10 +27,20 @@ class Card extends Component{
     componentDidMount(){
          axios.get('https://api-mongod.herokuapp.com/categorias/'+this.props.categoria)
           .then(response=>{
-              this.setState({categ:response.data.categoria});
-              console.log();
+            console.log(response.data.categoria);
+              if(response.data.categoria){
+                this.setState({categ:response.data.categoria});
+              }
+              else{
+                this.setState({categ:"sin categoria"});
+              }
+              console.log("veamos");
           })
-          .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
+          .catch(error=>{
+            this.setState({loading:false, modalOpened:false, error:true, completed:false});
+            this.setState({categ:"sin categoria"});
+          })
+
      }
 
     modalOpened2=()=>{
