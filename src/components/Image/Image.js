@@ -13,7 +13,6 @@ const image =(props)=>(
                 <button className="bbuton2" onClick={props.click}>+</button>
             </div>
         </div>
-        <input className="ok input"></input>
     </div>
         <img src={props.link} className="imagen"></img>
         
