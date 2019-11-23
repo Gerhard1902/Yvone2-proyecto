@@ -1,8 +1,11 @@
 import React from 'react';
 import './Toolbar.css';
-import {NavLink} from 'react-router-dom'; 
+import {NavLink} from 'react-router-dom';
 import NavigationItems from '../NavigationItems/NavigationItems';
 import DrawerToggle from '../NavigationItems/SideDrawer/DrawerToggle/DrawerToggle';
+
+
+
 
 const toolbar=(props)=>(
     <header className='Toolbar'>
@@ -14,7 +17,10 @@ const toolbar=(props)=>(
                 <li className='NavigationItem'> <NavLink to="/regalos">Regalos</NavLink> </li>
                 <li className='NavigationItem'> <NavLink to="/usuarios">Usuarios</NavLink> </li>
             </ul>
+
         </nav>
+
+        <a href="/">Log Out</a>
     </header>
 );
 
