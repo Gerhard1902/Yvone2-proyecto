@@ -15,13 +15,13 @@ class FullPost extends Component {
         loadedPost:null,
         ninoRegalo:[],
         ninoEspecifico:[],
-        index:0,
+        indexx:0,
         posts:[],
         index:"",
         idid:"",
         costo:0,
     }
-    
+
     changeStatusHandler=()=>{
         this.setState({status:!this.state.status});
     }
@@ -32,11 +32,11 @@ class FullPost extends Component {
 
     }
     componentDidMount(){
-               
+
                 axios.get("https://api-mongod.herokuapp.com/ninos/"+this.props.match.params.id)
                 .then(response=>{
-                this.setState({loadedPost:response.data.nino}); 
-                
+                this.setState({loadedPost:response.data.nino});
+
             });
 
             axios.get("https://api-mongod.herokuapp.com/ninos/"+this.props.match.params.id)
@@ -60,7 +60,7 @@ class FullPost extends Component {
 
             })
             .catch(e => console.log(e));
-            
+
             axios.get('https://api-mongod.herokuapp.com/regalos')
          .then(response=>{
              this.setState({
@@ -146,10 +146,10 @@ class FullPost extends Component {
         valor = response.data.regalo.nombre;
         console.log("ahora el nombre");
         console.log(valor);
-        document.getElementById(this.state.index).innerHTML = '$'+valor;
-        let v = this.state.index +1;
+        document.getElementById(this.state.indexx).innerHTML = valor;
+        let v = this.state.indexx +1;
         this.setState({
-          index: v
+          indexx: v
         });
 
       })
@@ -165,7 +165,7 @@ class FullPost extends Component {
             return <option value={a._id} >{a.nombre}</option>
         })
 
-        const posts= 
+        const posts=
         <select onChange={this.changing}>
             {op}
         </select>;
@@ -184,9 +184,9 @@ class FullPost extends Component {
             if (this.loadedPost.genero === true){
                 st="niño";
             }
-            else st="niña"; 
+            else st="niña";
         }
-        
+
         let post = <p style={{textAlign:'center'}}>No hay información para mostrar</p>;
         let v=new Date();
 
@@ -202,7 +202,7 @@ class FullPost extends Component {
 
             post = (
                 <div>
-                    
+
                     <div className="kid">
                         <div className={y}></div>
                         <div className="seccionesNinoE">
@@ -239,15 +239,15 @@ class FullPost extends Component {
                         </div>
                         <div className="regalosNE">
                         </div>
-                     
+
                         <div>
                         <Link to="/niños" className="link">
                             <Button text="< Regresar"/>
-                        </Link> 
+                        </Link>
                     </div>
                     </div>
-                    
-                   
+
+
                     <Modal show={this.state.modalOpened} modalClosed={this.modalClosed}>
 				    <div>
                     <p className="niño ko">Asociar un regalo</p>
