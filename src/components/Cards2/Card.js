@@ -4,6 +4,8 @@ import DotsOptions from '../UI/DotsOptions/DotsOptions';
 import Button from '../UI/Button/Button';
 import axios from '../../axios-petition';
 import Modal from '../UI/Modal/Modal';
+import swal from 'sweetalert';
+
 
 class Card2 extends Component{
     state={
