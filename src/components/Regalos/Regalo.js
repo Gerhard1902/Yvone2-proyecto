@@ -8,6 +8,7 @@ import Spinner from '../UI/Spinner/Spinner';
 import Button from '../UI/Button/Button';
 import withErrorHandler from '../withErrorHandler/withErrorHandler';
 import './Regalo.css';
+import swal from 'sweetalert';
 
 class Regalo2 extends Component{
     state={
@@ -56,9 +57,11 @@ class Regalo2 extends Component{
         console.log(reg);
         axios.post('https://api-mongod.herokuapp.com/regalos',  reg )     //Hay que modificar la ruta para el servidor
             .then((r) =>{
-              alert("Registro Exitoso");
+              swal("Asignacion Exitosa","Niño tiene nuevo regalo", "success");
               this.setState({loading:false, modalOpened:false, completed:true});
-              window.location.reload(false)
+              setTimeout(function () {
+                  window.location.reload(false)
+              }, 2500);
             }
             )
             .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));

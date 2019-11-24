@@ -238,10 +238,12 @@ class FullPost extends Component {
         }else{
             y="malo";
             let g = carbon.map(a=>{
+
               return <option value={a._id} >{a.nombre}</option>
             })
             posts=
             <select onChange={this.changing}>
+                <option value="0">Escoge categoria</option>
                 {g}
             </select>;
         }

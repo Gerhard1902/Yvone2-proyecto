@@ -7,6 +7,7 @@ import Button from '../UI/Button/Button';
 import axios from '../../axios-petition';
 import Spinner from '../UI/Spinner/Spinner';
 import './user.css';
+import swal from 'sweetalert';
 
 class Usuarios extends Component{
     state={
@@ -77,9 +78,11 @@ class Usuarios extends Component{
         // }
         axios.post('https://api-mongod.herokuapp.com/empleados',  reg )     //Hay que modificar la ruta para el servidor
           .then((r) =>{
-            alert("Registro Exitoso");
+            swal("Registro exitoso","Nuevo usuario", "success");
             this.setState({loading:false, modalOpened:false, completed:true});
-            window.location.reload(false)
+            setTimeout(function () {
+                window.location.reload(false)
+            }, 2500);
           }
 
           )

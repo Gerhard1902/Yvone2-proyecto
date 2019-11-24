@@ -11,6 +11,7 @@ import withErrorHandler from '../withErrorHandler/withErrorHandler';
 import { Link } from 'react-router-dom';
 import X from "../../assets/x.png";
 import "./categoria.css";
+import swal from 'sweetalert';
 
 class Categoria extends Component{
     state={
@@ -46,8 +47,11 @@ class Categoria extends Component{
     submitHandler=()=>{
       axios.post('https://api-mongod.herokuapp.com/categorias/',  { nombre: this.state.nombre } )     //Hay que modificar la ruta para el servidor
           .then(r => {
+            swal("Creacion exitosa","Nueva categoria", "success");
             this.setState({modalOpened:false});
-            window.location.reload(false);
+            setTimeout(function () {
+                window.location.reload(false)
+            }, 2500);
           })
           .catch(e => console.log(e));
     }
@@ -142,7 +146,7 @@ class Categoria extends Component{
         <div>
             <Link to="/regalos" className="link">
                 <Button text="< Regresar"/>
-            </Link> 
+            </Link>
         </div>
         <Modal show={this.state.modalOpened} modalClosed={this.modalClosed}>
 		    {x}
