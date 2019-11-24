@@ -20,7 +20,7 @@ class Niño extends Component{
         posts:[]
         ,
             nombre: "",
-            status:true,
+            status:false,
             calle:"",
             número:"",
             colonia: "",
@@ -28,7 +28,7 @@ class Niño extends Component{
             fechaNacimiento:"",
         textBuscar:'',
         postsBackup:[],
-        navidad:""        
+        navidad:""
     };
 
 
@@ -49,7 +49,7 @@ class Niño extends Component{
         })
         .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
         console.log(this.state.posts);
-        this.asignarRegalo();
+
     }
 
     asignarRegalo=()=>{
@@ -85,6 +85,7 @@ class Niño extends Component{
     submitHandler=()=>{
         this.setState({loading:true});
         const num = Number(this.state.numero);
+        console.log("de verdad es true? " +this.state.status)
         const niño = {
             nombre: this.state.nombre,
             status:this.state.status,
@@ -101,7 +102,9 @@ class Niño extends Component{
         let añoNiño = añoActual-año;
 
 
+
         if(añoNiño <= 11 && añoNiño >= 2){
+          console.log("Quiero el status"+niño.status);
           axios.post('https://api-mongod.herokuapp.com/ninos/',  niño )
           .then((r) =>{
             console.log(r.data.nino._id);
@@ -112,17 +115,17 @@ class Niño extends Component{
               this.setState({loading:false, modalOpened:false, completed:true});
               window.location.reload(false)
             }
-            this.setState({idNin:r.data.nino._id});
+
 
               console.log("HOLA");
 
                 console.log("verificando")
                 console.log(r.data.nino.status);
                 if(r.data.nino.status === false){
-                  axios.post('https://api-mongod.herokuapp.com/ninosregalos/',{idNino:r.data.nino._id, idRegalo:"5dd966aab0218800170e76bd"})
+                  axios.post('https://api-mongod.herokuapp.com/ninosregalos/',{idNino:r.data.nino._id, idRegalo:"5dd99fe8b0218800170e77b1"})
                     .then((r) =>{
                       alert("Asignacion Exitosa");
-                      this.setState({status: true});
+                      
                       this.setState({loading:false, modalOpened:false, completed:true});
                       window.location.reload(false)
                     }
@@ -175,8 +178,8 @@ class Niño extends Component{
 
     }
     handleChange6=(event)=>{
-        this.setState({"status": event.target.checked});
-        console.log(this.state.status);
+        this.setState({"status": !event.target.checked});
+        console.log("se cambio " + !event.target.checked);
 
     }
     handleChange7=(event)=>{
@@ -228,7 +231,7 @@ class Niño extends Component{
                     <div className="toggle">
                         <p className="textt">niño</p>
                         <label class="switch">
-                            <input  type="checkbox" onChange={this.handleChange6}></input>
+                            <input  type="checkbox" onChange={this.handleChange7}></input>
                             <span class="slider round"></span>
                         </label>
                         <p className="textt">niña</p>
@@ -236,7 +239,7 @@ class Niño extends Component{
                     <div className="toggle">
                         <p className="textt">bueno</p>
                         <label class="switch">
-                            <input  type="checkbox" onChange={this.handleChange7}></input>
+                            <input  type="checkbox" onChange={this.handleChange6}></input>
                             <span class="slider round"></span>
                         </label>
                         <p className="textt">malo</p>
