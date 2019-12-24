@@ -18,7 +18,8 @@ class FullPost extends Component {
         index:0,
         posts:[],
         index:"",
-        idid:""
+        idid:"",
+        costo:0,
     }
     
     changeStatusHandler=()=>{
@@ -74,25 +75,32 @@ class FullPost extends Component {
       componentDidUpdate() {
         console.log("prueba");
         console.log(this.state.ninoEspecifico);
-        let costo = 0;
-        if(this.state.ninoEspecifico){
-          console.log("HOLA");
-          let vamos = this.state.ninoEspecifico.map(function( obj ) {
-            axios.get("https://api-mongod.herokuapp.com/regalos/"+obj)
-            .then(response=>{
-              console.log("costo solo")
-              console.log(response.data.regalo.costo);
-              if(costo != 'undefined'){
-                console.log("metiendo");
-                return response.data.regalo.costo;
-              }
-            })
-            .catch(e => console.log(e));
-          });
-          console.log("total");
-          console.log(vamos);
-        }
+
       }
+
+    meterCosto=()=>{
+      if(this.state.ninoEspecifico){
+        let cost = this.state.costo;
+        console.log("HOLA");
+        let vamos = this.state.ninoEspecifico.map(function( obj ) {
+          axios.get("https://api-mongod.herokuapp.com/regalos/"+obj)
+          .then(response=>{
+            console.log("costo solo")
+            console.log(response.data.regalo.costo);
+            if(cost != 'undefined'){
+              console.log("metiendo");
+              cost += response.data.regalo.costo
+              console.log(cost);
+              document.getElementById("costoTotal").innerHTML = cost;
+            }
+          })
+          .catch(e => console.log(e));
+        });
+        console.log("total");
+        console.log(cost);
+        document.getElementById("costoTotal").innerHTML = cost;
+      }
+    }
 
     deletePostHandler=()=>{
 
@@ -131,8 +139,6 @@ class FullPost extends Component {
     }
 
     nombreRegalo=(x)=>{
-      console.log("probando metodo id")
-      console.log(x);
       let valor = "";
       axios.get("https://api-mongod.herokuapp.com/regalos/"+x)
       .then(response=>{
@@ -140,7 +146,7 @@ class FullPost extends Component {
         valor = response.data.regalo.nombre;
         console.log("ahora el nombre");
         console.log(valor);
-        document.getElementById(this.state.index).innerHTML = valor;
+        document.getElementById(this.state.index).innerHTML = '$'+valor;
         let v = this.state.index +1;
         this.setState({
           index: v
@@ -165,6 +171,8 @@ class FullPost extends Component {
         </select>;
 
 
+
+      console.log(this.props.match.params.id);
         let y;
         if (this.state.status){
             y="bueno";
@@ -187,7 +195,11 @@ class FullPost extends Component {
         if (this.props.id){
             post = <p style={{textAlign:'center'}}>Loading...</p>;
         }
+
+
+
         if (this.state.loadedPost){
+
             post = (
                 <div>
                     
@@ -215,15 +227,16 @@ class FullPost extends Component {
                     <div className="regaloInfoE">
                         <div className="info">
                             <p>Regalos</p>
-                            
-                            <p>Costo total: 98765.00 $</p>
-                            <button className="addButton" onClick={this.modalOpened}>+</button>
-                            
-                        </div>
-                        <ul>
+                            <p></p>
+                            <ul>
                               {this.state.ninoEspecifico.map((x,index) => <li id={index}>{this.nombreRegalo(x)}</li>)}
 
                             </ul>
+
+                            <p id="costoTotal">$</p>
+                            <button className="addButton" onClick={this.modalOpened}>+</button>
+                            <button className="addButton" onClick={this.meterCosto}>$</button>
+                        </div>
                         <div className="regalosNE">
                         </div>
                      
@@ -247,6 +260,7 @@ class FullPost extends Component {
                 </div>
             );
         }
+
         return post;
     }
 }
