@@ -134,12 +134,46 @@ class Card2 extends Component{
     }
 
     render(){
+        let moodNavidad;
+        let moodNavidad2;
         let x=(
             <div className="btnOptions">
                 <button className="botones" onClick={this.editHandler}>Editar</button>
                 <button className="botones" onClick={this.deleteHandler}>Eliminar</button>
            </div>
         );
+
+        //10 am del 24 dic hasta 12 pm del 25
+        let navidad= new Date;
+        if ( navidad.getDate()==24 && navidad.getHours()>=10 && navidad.getMonth()==11){
+            if ( navidad.getDate()==25 && navidad.getHours()<=23 && navidad.getMonth()==11){
+                moodNavidad = (
+                    <div className="dots">
+                        <div className="dot"></div>
+                        <div className="dot"></div>
+                        <div className="dot"></div>
+                    </div>
+                );
+                moodNavidad2 = (
+                    <Button text="Status fijo"></Button>
+                );
+            }
+        }
+        else {
+            moodNavidad = (
+                <div className="dots" onClick={this.modalOpened}>
+                    <div className="dot"></div>
+                    <div className="dot"></div>
+                    <div className="dot"></div>
+                    <DotsOptions show={this.state.modalOpened} modalClosed={this.modalClosed}>
+                        {x}
+                    </DotsOptions>
+                </div>
+            );
+            moodNavidad2 = (
+                <Button text="Cambiar status" clicked={this.changeStatusHandler}></Button>
+            );
+        }
         let y;
         if (this.state.status){
             y="green";
@@ -159,19 +193,14 @@ class Card2 extends Component{
             <p className="texts">{v.getFullYear()-o} años</p>
             <div className="margin">
             <Button text="Ver" clicked={this.props.c2}></Button>
-            <Button text="Cambiar status" clicked={this.changeStatusHandler}></Button>
+            {moodNavidad2}
             </div>
 
+        </div>
+        <div>
+            {moodNavidad}
+        </div>
 
-        </div>
-        <div className="dots" onClick={this.modalOpened}>
-            <div className="dot"></div>
-            <div className="dot"></div>
-            <div className="dot"></div>
-            <DotsOptions show={this.state.modalOpened} modalClosed={this.modalClosed}>
-		        {x}
-		    </DotsOptions>
-        </div>
         <Modal show={this.state.modalOpened2} modalClosed={this.modalClosed2}>
             <div>
             <p className="niño">Modificar Niño</p>
