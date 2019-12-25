@@ -20,13 +20,27 @@ class FullPost extends Component {
         index:"",
         idid:"",
         costo:0, 
-        filtered:[]
+        filtered:[],
+        
     }
 
     changeStatusHandler=()=>{
         this.setState({status:!this.state.status});
     }
-
+    aleatorio=()=>{
+        axios.get("https://api-mongod.herokuapp.com/regalos")
+                .then(response=>{
+                    console.log(response);
+        console.log(response.data.result.length);
+        axios.post('https://api-mongod.herokuapp.com/ninosregalos',{idNino:this.props.match.params.id, idRegalo:response.data.result[(Math.floor(Math.random() * (response.data.result.length+1)))]._id})
+            .then((r) =>{
+              this.setState({loading:false, modalOpened:false, completed:true});
+              window.location.reload(false)
+            }
+            )
+            .catch(this.setState({modalOpened:false, error:true}));
+    }).catch(this.setState({modalOpened:false, error:true}));
+}
 
     changing=(event)=>{
         this.setState({index:event.target.value});
@@ -288,7 +302,7 @@ class FullPost extends Component {
                             <button className="addButton" onClick={this.modalOpened}>Agregar regalo</button>
                             <button className="addButton" onClick={this.meterCosto}>Calcular costo</button>
                             <p id="costoTotal">$</p>
-                            <button className="addButton" onClick={this.meterCosto}>Asignar aleatorio</button>
+                            <button className="addButton" onClick={this.aleatorio}>Asignar aleatorio</button>
                         </div>
                         </div>
                        
