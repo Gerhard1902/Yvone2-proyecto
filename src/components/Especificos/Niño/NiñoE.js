@@ -214,6 +214,14 @@ class FullPost extends Component {
     }
 
     render () {
+        let relleno=
+        <div className="jrp">
+            <button className="addButton" onClick={this.modalOpened}>Agregar regalo</button>
+            <button className="addButton" onClick={this.meterCosto}>Calcular costo</button>
+            <p id="costoTotal">$</p>
+            <button className="addButton" onClick={this.aleatorio}>Asignar aleatorio</button>
+        </div>;
+        
 
         let op=this.state.posts.map(a=>{
             return <option value={a._id} >{a.nombre}</option>
@@ -244,7 +252,7 @@ class FullPost extends Component {
         let post = <p style={{textAlign:'center'}}>No hay información para mostrar</p>;
         let v=new Date();
 
-
+        
 
         if (this.props.id){
             post = <p style={{textAlign:'center'}}>Loading...</p>;
@@ -262,6 +270,9 @@ class FullPost extends Component {
         });
 
         if (this.state.loadedPost){
+            if ((v.getFullYear()-this.state.loadedPost.fechaNacimiento.substring(0,4))>=12){
+                relleno=<div>Edad mayor a  11 años. No es posible agregar regalo</div>;
+            }
 
             post = (
                 <div className="otro2">
@@ -298,12 +309,7 @@ class FullPost extends Component {
 
                             </table>
                         </div>
-                        <div className="jrp">
-                            <button className="addButton" onClick={this.modalOpened}>Agregar regalo</button>
-                            <button className="addButton" onClick={this.meterCosto}>Calcular costo</button>
-                            <p id="costoTotal">$</p>
-                            <button className="addButton" onClick={this.aleatorio}>Asignar aleatorio</button>
-                        </div>
+                        {relleno}
                         </div>
                        
                         
