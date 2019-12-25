@@ -16,6 +16,7 @@
 .Atd, .Ath {
     border: 1px solid #ddd;
     padding: 8px;
+    width: 96%;
   }
   
 .Atr:nth-child(even){background-color: #f2f2f2;}

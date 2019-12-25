@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Button from './../../UI/Button/Button';
 import Modal from '../../UI/Modal/Modal';
-
+import Equis from "../../../assets/x.png";
 import Image from './../../Image/Image';
 import Card from './../../Cards/Card';
 import { Link } from 'react-router-dom';
@@ -19,7 +19,8 @@ class FullPost extends Component {
         posts:[],
         index:"",
         idid:"",
-        costo:0,
+        costo:0, 
+        filtered:[]
     }
 
     changeStatusHandler=()=>{
@@ -53,6 +54,8 @@ class FullPost extends Component {
               console.log(this.state.ninoRegalo);
               const ninoEsp = response.data.result.filter( x => x.idNino === this.props.match.params.id )
               .map(function( obj ) {
+                  console.log("el map");
+                console.log(obj);
                 return obj.idRegalo;
               });
 
@@ -104,6 +107,7 @@ class FullPost extends Component {
 
     deletePostHandler=()=>{
 
+        
         axios.delete('/posts/'+ this.props.id)
         .then(response=>{console.log(response)});
     }
@@ -112,7 +116,6 @@ class FullPost extends Component {
         console.log(this.props.match.params.id+ " "+this.state.index)
         axios.post('https://api-mongod.herokuapp.com/ninosregalos',{idNino:this.props.match.params.id, idRegalo:this.state.index})
             .then((r) =>{
-              alert("Registro Exitoso");
               this.setState({loading:false, modalOpened:false, completed:true});
               window.location.reload(false)
             }
@@ -141,15 +144,48 @@ class FullPost extends Component {
     addRegalo=()=>{
         console.log("Voy a agregar un regalo");
     }
-
+    check=(x, id)=> {
+        if (x===id && this.props.match.params.id)
+            return true;
+        else    
+            return false;
+      }
+    clickHandler=(id)=>{
+        let ninoEsp="";
+        axios.get("https://api-mongod.herokuapp.com/ninosregalos")
+            .then(response=>{
+                
+                console.log("sdfsdf");
+              console.log(response);
+              ninoEsp = response.data.result.filter( x => x.idNino === this.props.match.params.id )
+              //.filter( y => y.idRegalo === id ).map(function(g){return g._id})
+              console.log("ese" +ninoEsp);
+              console.log(ninoEsp);
+              ninoEsp=ninoEsp.filter(x => x.idRegalo === id );
+              console.log("el id ed"+ id);
+              console.log(ninoEsp);
+              axios.delete('https://api-mongod.herokuapp.com/ninosregalos/'+ ninoEsp[0]._id)
+             .then(response=>{console.log(response);
+                window.location.reload(false)
+    });
+              
+    });
+    console.log("fuera");
+    console.log(ninoEsp);
+ /*
+    
+    axios.delete('https://api-mongod.herokuapp.com/ninosregalos/'+ ninoEsp[0]._id)
+    .then(response=>{console.log(response);
+        window.location.reload(false)
+    });*/
+}
+   
     nombreRegalo=(x)=>{
       let valor = "";
       axios.get("https://api-mongod.herokuapp.com/regalos/"+x)
       .then(response=>{
-        console.log(response.data.regalo);
         valor = response.data.regalo.nombre;
-        console.log("ahora el nombre");
-        console.log(valor);
+       
         document.getElementById(this.state.indexx).innerHTML = valor;
         let v = this.state.indexx +1;
         this.setState({
@@ -200,12 +236,21 @@ class FullPost extends Component {
             post = <p style={{textAlign:'center'}}>Loading...</p>;
         }
 
-
+        const regalos=this.state.ninoEspecifico.map((x,index) => {
+            return <tr className="Atr" >
+                       <td id={index} className="aFlex Atd hundred" >
+                                <div>{this.nombreRegalo(x)}</div>
+                        </td>
+                        <td className=" Atd" onClick={()=>{this.clickHandler(x)}}>
+                           <img src={Equis}   className="icon"></img>         
+                       </td>
+                   </tr>
+        });
 
         if (this.state.loadedPost){
 
             post = (
-                <div>
+                <div className="otro2">
 
                     <div className="kid">
                         <div className={y}></div>
@@ -213,7 +258,6 @@ class FullPost extends Component {
                             <div className="fila1">
                                 <p>{this.state.loadedPost.nombre}</p>
                                 <div className="EditBtn" onClick={this.editarNinoE}>
-                                    <img src={Pencil} className="icon"></img>
                                 </div>
                             </div>
                             <div className="fila2">
@@ -229,28 +273,33 @@ class FullPost extends Component {
                         </div>
                     </div>
                     <div className="regaloInfoE">
-                        <div className="info">
-                            <p>Regalos</p>
-                            <p></p>
-                            <ul>
-                              {this.state.ninoEspecifico.map((x,index) => <li id={index}>{this.nombreRegalo(x)}</li>)}
-
-                            </ul>
-
-                            <p id="costoTotal">$</p>
-                            <button className="addButton" onClick={this.modalOpened}>+</button>
-                            <button className="addButton" onClick={this.meterCosto}>$</button>
-                        </div>
-                        <div className="regalosNE">
-                        </div>
-
+                        <div className="info2">
                         <div>
-                        <Link to="/niños" className="link">
-                            <Button text="< Regresar"/>
-                        </Link>
-                    </div>
+                            <table>
+                                <tr className="Atr hundred">
+                                    <th className="Ath">Lista de Regalos de {this.state.loadedPost.nombre} </th>
+                                    <th className="Ath"> </th>
+                                </tr>
+                              {regalos}
+
+                            </table>
+                        </div>
+                        <div className="jrp">
+                            <button className="addButton" onClick={this.modalOpened}>Agregar regalo</button>
+                            <button className="addButton" onClick={this.meterCosto}>Calcular costo</button>
+                            <p id="costoTotal">$</p>
+                            <button className="addButton" onClick={this.meterCosto}>Asignar aleatorio</button>
+                        </div>
+                        </div>
+                       
+                        
                     </div>
 
+                    <div>
+                            <Link to="/niños" className="link">
+                                <Button text="< Regresar"/>
+                            </Link>
+                        </div>
 
                     <Modal show={this.state.modalOpened} modalClosed={this.modalClosed}>
 				    <div>

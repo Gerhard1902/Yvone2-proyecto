@@ -40,9 +40,9 @@
     box-shadow: 0 4px 4px #ccc;
     margin:10px;
     box-sizing: border-box;
-    cursor:pointer;
     justify-content: flex-start;
     align-content: space-between;
+    background-color: white;
 }
 .theRest2{
     width: 300px;
@@ -95,15 +95,12 @@
     width: 95%;
     height: 500px;
     padding: 26px;
-    border: 1px solid #eee;
-    box-shadow: 0 4px 4px #ccc;
+  
     margin:10px;
-    box-sizing: border-box;
-    cursor:pointer;
     justify-content: flex-start;
     align-content: space-between;
 }
-.info{
+.info2{
     height: 100px;
     display: flex;
     flex-direction: row;
@@ -111,6 +108,7 @@
     font-size: 30px;
     font-style: initial;
     color: gray;
+
 }
 .regalosNE{
     height: 400px;
@@ -119,15 +117,15 @@
     flex-wrap: wrap;
 }
 .addButton{
-    background-color: transparent;
-    border-color:#009688;;
-    border-radius: 10px;
-    height: 70px;
-    width: 70px;
+    color: #fff;
+    background-color: #007bff;
+    border-color:none;
+    border-radius:10px;
     text-justify: center;
-    padding: 5px 20px;
+    padding: 10px 20px;
     font-size:30px;
-    color: #009688;
+    margin:10px;
+   
 }
 
 link{
@@ -150,4 +148,23 @@ link{
     font-size: 20px;;
     margin-top:30px;
     margin-bottom:20px;
+}
+.whoops{
+    z-index: 500;
+    
+}
+.jrp{
+    display:flex;
+    flex-direction: column;
+}
+.otro2{
+    background-color: white;
+}
+.hundred{
+    width:100%;
+}
+ @media(max-width:701px){
+.Ath, .Atd, .addButton{
+    font-size: 15px;
+}
 }
