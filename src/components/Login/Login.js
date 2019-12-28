@@ -3,6 +3,8 @@ import './Login.css';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import Santa from '../../assets/circle_santa-512.png';
+import swal from 'sweetalert';
+
 //import Alert from 'react-bootstrap/Alert';
 
 const cookies = new Cookies();
@@ -36,10 +38,14 @@ class Login extends Component{
           password: this.state.password,
       }).then(res => {
         cookies.set('accessToken', res.data.accessToken, { path: '/' });
-        window.open('/dashboard', "_self");
+        swal("Login Exitoso!","Adelante", "success");
+        setTimeout(function () {
+            window.open('/dashboard', "_self");
+        }, 2500);
+
       })
       .catch((error) => {
-        alert("Credenciales Incorrectas"); //Poner mensaje mas bonito
+        swal("Error de Login", "Checa tus credenciales!", "error"); //Poner mensaje mas bonito
       })
     }
 

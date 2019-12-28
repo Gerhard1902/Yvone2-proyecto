@@ -8,13 +8,14 @@ import Spinner from '../UI/Spinner/Spinner';
 import Button from '../UI/Button/Button';
 import withErrorHandler from '../withErrorHandler/withErrorHandler';
 import './Regalo.css';
+import swal from 'sweetalert';
+import { thisTypeAnnotation } from '@babel/types';
 
 class Regalo2 extends Component{
     state={
         modalOpened:false,
-        loading:false,
+        loading:true,
         error:false,
-        loading:false,
         completed:false,
         selectedPostId:null,
         categ:[],
@@ -27,20 +28,33 @@ class Regalo2 extends Component{
         postsBackup:[],
     }
     componentDidMount(){
+        this.setState({loading:true});
         axios.get('https://api-mongod.herokuapp.com/regalos')
          .then(response=>{
+             try{
              this.setState({
                  posts:response.data.result,
                  postsBackup:response.data.result,
-                 key: response.data.result.nombre
+                 key: response.data.result.nombre,
+                 loading:false
             });
+        }
+        catch{(this.setState({loading:false, modalOpened:false, error:true, completed:false}))}
          })
          .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
 
          axios.get('https://api-mongod.herokuapp.com/categorias')
-          .then(response=>{
-              this.setState({categ:response.data.result});
-          })
+          .then(
+             
+            response=>{
+                try{
+              this.setState({categ:response.data.result, loading:false});
+                }
+                catch{
+                this.setState({loading:false, modalOpened:false, error:true, completed:false})}
+          }
+         
+          )
           .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
      }
 
@@ -56,9 +70,11 @@ class Regalo2 extends Component{
         console.log(reg);
         axios.post('https://api-mongod.herokuapp.com/regalos',  reg )     //Hay que modificar la ruta para el servidor
             .then((r) =>{
-              alert("Registro Exitoso");
+              swal("Asignacion Exitosa","Niño tiene nuevo regalo", "success");
               this.setState({loading:false, modalOpened:false, completed:true});
-              window.location.reload(false)
+              setTimeout(function () {
+                  window.location.reload(false)
+              }, 2500);
             }
             )
             .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));

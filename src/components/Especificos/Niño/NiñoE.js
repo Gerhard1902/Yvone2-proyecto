@@ -19,9 +19,9 @@ class FullPost extends Component {
         posts:[],
         index:"",
         idid:"",
-        costo:0, 
+        costo:0,
         filtered:[],
-        
+
     }
 
     changeStatusHandler=()=>{
@@ -79,12 +79,13 @@ class FullPost extends Component {
             .catch(e => console.log(e));
 
             axios.get('https://api-mongod.herokuapp.com/regalos')
-         .then(response=>{
-             this.setState({
-                 posts:response.data.result,
-            });
-         })
-         .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
+               .then(response=>{
+                   this.setState({
+                       posts:response.data.result,
+                  });
+                  console.log(response.data.result);
+               })
+               .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
 
 
         }
@@ -121,7 +122,7 @@ class FullPost extends Component {
 
     deletePostHandler=()=>{
 
-        
+
         axios.delete('/posts/'+ this.props.id)
         .then(response=>{console.log(response)});
     }
@@ -161,14 +162,14 @@ class FullPost extends Component {
     check=(x, id)=> {
         if (x===id && this.props.match.params.id)
             return true;
-        else    
+        else
             return false;
       }
     clickHandler=(id)=>{
         let ninoEsp="";
         axios.get("https://api-mongod.herokuapp.com/ninosregalos")
             .then(response=>{
-                
+
                 console.log("sdfsdf");
               console.log(response);
               ninoEsp = response.data.result.filter( x => x.idNino === this.props.match.params.id )
@@ -182,24 +183,24 @@ class FullPost extends Component {
              .then(response=>{console.log(response);
                 window.location.reload(false)
     });
-              
+
     });
     console.log("fuera");
     console.log(ninoEsp);
  /*
-    
+
     axios.delete('https://api-mongod.herokuapp.com/ninosregalos/'+ ninoEsp[0]._id)
     .then(response=>{console.log(response);
         window.location.reload(false)
     });*/
 }
-   
+
     nombreRegalo=(x)=>{
       let valor = "";
       axios.get("https://api-mongod.herokuapp.com/regalos/"+x)
       .then(response=>{
         valor = response.data.regalo.nombre;
-       
+
         document.getElementById(this.state.indexx).innerHTML = valor;
         let v = this.state.indexx +1;
         this.setState({
@@ -223,23 +224,36 @@ class FullPost extends Component {
         </div>;
         
 
+        console.log("viendo los posts " + this.state.posts);
+        let carbon=this.state.posts.filter( x => x.nombre === "Carbon" )
+        console.log(carbon);
+
+        console.log(carbon.nombre);
         let op=this.state.posts.map(a=>{
             return <option value={a._id} >{a.nombre}</option>
         })
 
-        const posts=
-        <select onChange={this.changing}>
-            {op}
-        </select>;
+        let posts;
 
 
-
-      console.log(this.props.match.params.id);
         let y;
         if (this.state.status){
             y="bueno";
+            posts=
+            <select onChange={this.changing}>
+                {op}
+            </select>;
         }else{
-            y="malo"
+            y="malo";
+            let g = carbon.map(a=>{
+
+              return <option value={a._id} >{a.nombre}</option>
+            })
+            posts=
+            <select onChange={this.changing}>
+                <option value="0">Escoge categoria</option>
+                {g}
+            </select>;
         }
         let st;
         if (this.loadedPost){
@@ -264,7 +278,7 @@ class FullPost extends Component {
                                 <div>{this.nombreRegalo(x)}</div>
                         </td>
                         <td className=" Atd" onClick={()=>{this.clickHandler(x)}}>
-                           <img src={Equis}   className="icon"></img>         
+                           <img src={Equis}   className="icon"></img>
                        </td>
                    </tr>
         });
@@ -311,8 +325,8 @@ class FullPost extends Component {
                         </div>
                         {relleno}
                         </div>
-                       
-                        
+
+
                     </div>
 
                     <div>

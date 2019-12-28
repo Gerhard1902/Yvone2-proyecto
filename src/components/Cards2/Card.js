@@ -4,6 +4,8 @@ import DotsOptions from '../UI/DotsOptions/DotsOptions';
 import Button from '../UI/Button/Button';
 import axios from '../../axios-petition';
 import Modal from '../UI/Modal/Modal';
+import swal from 'sweetalert';
+
 
 class Card2 extends Component{
     state={
@@ -127,8 +129,11 @@ class Card2 extends Component{
         axios.put('https://api-mongod.herokuapp.com/ninos/'+this.props.id,objeto)
             .then(response=>{
                 console.log(response.data);
+                swal("Modificación exitosa","Niño modificado", "success");
                 this.setState({modalOpened2:false});
-                window.location.reload(false);
+                setTimeout(function () {
+                    window.location.reload(false)
+                }, 2500);
             })
             .catch(this.setState({modalOpened2:false, error:true}));
     }

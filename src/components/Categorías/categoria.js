@@ -11,12 +11,13 @@ import withErrorHandler from '../withErrorHandler/withErrorHandler';
 import { Link } from 'react-router-dom';
 import X from "../../assets/x.png";
 import "./categoria.css";
+import swal from 'sweetalert';
 
 class Categoria extends Component{
     state={
         modalOpened:false,
         modalOpened2:false,
-        loading:false,
+        loading:true,
         error:false,
         completed:false,
         selectedPostId:null,
@@ -26,11 +27,19 @@ class Categoria extends Component{
             selectedPostId:""
     }
     componentDidMount(){
+        this.setState({loading:true});
         axios.get('https://api-mongod.herokuapp.com/categorias')
          .then(response=>{
+             try{
              this.setState({posts:response.data.result});
+             this.setState({loading:true});
+             }
+             catch{
+                this.setState({loading:false, modalOpened:false, error:true, completed:false, empty:true});
+             }
          })
-         .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
+         .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false, empty:true}));
+         this.setState({loading:false});
          console.log(this.state.posts);
      }
 
@@ -46,8 +55,11 @@ class Categoria extends Component{
     submitHandler=()=>{
       axios.post('https://api-mongod.herokuapp.com/categorias/',  { nombre: this.state.nombre } )     //Hay que modificar la ruta para el servidor
           .then(r => {
-            this.setState({modalOpened:false});
-            window.location.reload(false);
+            swal("Creacion exitosa","Nueva categoria", "success");
+            this.setState({modalOpened:false, loading:true});
+            setTimeout(function () {
+                window.location.reload(false)
+            }, 2500);
           })
           .catch(e => console.log(e));
     }
@@ -125,40 +137,51 @@ class Categoria extends Component{
                         </td>
                    </tr>
         });
+        let u=<Spinner/>;
+        if (this.state.empty){
+            u=<div>No hay elementos</div>;
+        }
+        if (this.state.loading){
+            u=(<div>
+            <div className="Aflex2">
+                <table>
+                    <tr className="Atr">
+                        <th className="Ath">Nombre </th>
+                    </tr>
+                    {posts}
+                </table>
+    
+            </div>
+            <div>
+                <Link to="/regalos" className="link">
+                    <Button text="< Regresar"/>
+                </Link>
+            </div>
+            <Modal show={this.state.modalOpened} modalClosed={this.modalClosed}>
+                {x}
+            </Modal>
+            <Modal show={this.state.modalOpened2} modalClosed={this.modalClosed2}>
+            <div>
+                <p className="niño">Editar Categoría</p>
+                <p>Nombre</p>
+                <input placeholder={this.state.nombre} className="data" onChange={this.handleChange}></input>
+                <div className="col">
+                    <Button text="Cancelar" clicked={this.modalClosed2}/>
+                    <Button text="Aceptar" clicked={this.editClickedHandler}/>
+                </div>
+            </div>
+            </Modal>
+            </div>);
+        }
 
 
         return(
             <div>
-        <Image link={Regalo} text="Categorías" click={this.modalOpened} click2={this.ContinueHandler} button="Categorías"/>
-        <div className="Aflex2">
-            <table>
-                <tr className="Atr">
-                    <th className="Ath">Nombre </th>
-                </tr>
-                {posts}
-            </table>
+                <Image link={Regalo} text="Categorías" click={this.modalOpened} click2={this.ContinueHandler} button="Categorías"/>
 
-        </div>
-        <div>
-            <Link to="/regalos" className="link">
-                <Button text="< Regresar"/>
-            </Link> 
-        </div>
-        <Modal show={this.state.modalOpened} modalClosed={this.modalClosed}>
-		    {x}
-		</Modal>
-        <Modal show={this.state.modalOpened2} modalClosed={this.modalClosed2}>
-        <div>
-            <p className="niño">Editar Categoría</p>
-            <p>Nombre</p>
-            <input placeholder={this.state.nombre} className="data" onChange={this.handleChange}></input>
-            <div className="col">
-                <Button text="Cancelar" clicked={this.modalClosed2}/>
-                <Button text="Aceptar" clicked={this.editClickedHandler}/>
+                {u}
             </div>
-        </div>
-		</Modal>
-    </div>
+     
         );
     }
 }

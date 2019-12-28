@@ -28,9 +28,7 @@
     margin-top: -10px;
     margin-left: -110px;
 }
-.flexible{
-    display:flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-content: space-between;
+
+.dots{
+  background-color:white ;
 }

@@ -9,6 +9,7 @@ import "./niños.css";
 import axios from '../../axios-petition';
 import Spinner from '../UI/Spinner/Spinner';
 import withErrorHandler from '../withErrorHandler/withErrorHandler';
+import swal from 'sweetalert';
 
 class Niño extends Component{
     state={
@@ -58,12 +59,14 @@ class Niño extends Component{
         console.log("verificando")
         console.log(this.state.status);
         if(this.state.status === false){
-          axios.post('https://api-mongod.herokuapp.com/ninosregalos/',{idNino:this.state.idNin, idRegalo:"5dd966aab0218800170e76bd"})
+          axios.post('https://api-mongod.herokuapp.com/ninosregalos/',{idNino:this.state.idNin, idRegalo:"5dda0db56107f70017ef2f32"})
             .then((r) =>{
-              alert("Asignacion Exitosa");
+              swal("Asignacion Exitosa","Niño tiene nuevo regalo", "success");
               this.setState({status: true});
               this.setState({loading:false, modalOpened:false, completed:true});
-              window.location.reload(false)
+              setTimeout(function () {
+                  window.location.reload(false)
+              }, 2500);
             }
             )
             .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
@@ -97,9 +100,11 @@ class Niño extends Component{
         };
 
         let año = niño.fechaNacimiento.substring(0,4);
+        console.log(año)
         let v=new Date();
         let añoActual = v.getFullYear();
         let añoNiño = añoActual-año;
+        console.log("edad es " + añoNiño);
 
 
 
@@ -109,11 +114,13 @@ class Niño extends Component{
           .then((r) =>{
             console.log(r.data.nino._id);
             console.log(r.data.nino.status);
-            alert("Registro Exitoso");
+            swal("Registro Exitoso","Niño ha sido registrado", "success");
             if(r.data.nino.status === true){
               console.log("pues hazlo");
               this.setState({loading:false, modalOpened:false, completed:true});
-              window.location.reload(false)
+              setTimeout(function () {
+                  window.location.reload(false)
+              }, 2500);
             }
 
 
@@ -122,12 +129,15 @@ class Niño extends Component{
                 console.log("verificando")
                 console.log(r.data.nino.status);
                 if(r.data.nino.status === false){
-                  axios.post('https://api-mongod.herokuapp.com/ninosregalos/',{idNino:r.data.nino._id, idRegalo:"5dd99fe8b0218800170e77b1"})
+                  axios.post('https://api-mongod.herokuapp.com/ninosregalos/',{idNino:r.data.nino._id, idRegalo:"5dda0db56107f70017ef2f32"})
                     .then((r) =>{
-                      alert("Asignacion Exitosa");
-                      
+                      swal("Asignacion Exitosa","Niño tiene nuevo carbón", "success");
+
                       this.setState({loading:false, modalOpened:false, completed:true});
-                      window.location.reload(false)
+                      setTimeout(function () {
+                          window.location.reload(false)
+                      }, 2500);
+
                     }
                     )
                     .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
@@ -136,11 +146,16 @@ class Niño extends Component{
 
           }
           )
-          .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
+          .catch((e)=>{
+            swal("Error de Registro", "Niño no tiene la edad requerida", "error");
+            this.setState({loading:false, modalOpened:false, error:true, completed:false});
+          }
 
+          );
         }
         else {
-          alert("Niño no tiene la edad requerida");
+          alert("error en edad")
+          swal("Error de Registro", "Niño no tiene la edad requerida", "error");
           window.location.reload(false)
         }
     }
@@ -158,7 +173,7 @@ class Niño extends Component{
 
     }
     handleChange2=(event)=>{
-        this.setState({"fechaNacimiento": event.target.value});
+        this.setState({fechaNacimiento: event.target.value});
         console.log(event.target.value);
 
     }

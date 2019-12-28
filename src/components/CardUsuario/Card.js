@@ -8,19 +8,23 @@ class Card2 extends Component{
         status: this.props.status
     }
 
- 
+
 
 
     render(){
-        
+
         return(
         <div className= "container3">
             <img src={this.props.link.toString()} className="profilePic"></img>
             <div>
-                 <p className="title2">{this.props.name}</p> 
+                 <p className="title2">{this.props.name}</p>
             </div>
-                       
-            
+
+            <div className="dots" >
+                <div className="dots"></div>
+                <div className="dots"></div>
+                <div className="dots"></div>
+            </div>
         </div>
 );
     }
