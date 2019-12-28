@@ -273,9 +273,7 @@ class Niño extends Component{
                </div>
             </div>
         );
-        if (this.state.loading){
-            x=<Spinner/>;
-        }
+        
         const posts= this.state.posts.map(a=>{
             return <Card imagen={Image} name={a.nombre} calle={a.calle}
                          numero={a.número} colonia={a.colonia}

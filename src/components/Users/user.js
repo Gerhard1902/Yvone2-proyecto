@@ -151,9 +151,7 @@ class Usuarios extends Component{
                </div>
             </div>
         );
-        if (this.state.loading){
-            x=<Spinner/>;
-        }
+      
         const posts= this.state.posts.map(a=>{
             return <Card link={a.fotoPerfil}
                     name={a.nombre}
