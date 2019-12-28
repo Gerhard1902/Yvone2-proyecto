@@ -20,11 +20,7 @@ class Card2 extends Component{
                  <p className="title2">{this.props.name}</p> 
             </div>
                        
-            <div className="dots" >
-                <div className="dot"></div>
-                <div className="dot"></div>
-                <div className="dot"></div>
-            </div>
+            
         </div>
 );
     }

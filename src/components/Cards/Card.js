@@ -27,20 +27,10 @@ class Card extends Component{
     componentDidMount(){
          axios.get('https://api-mongod.herokuapp.com/categorias/'+this.props.categoria)
           .then(response=>{
-            console.log(response.data.categoria);
-              if(response.data.categoria){
-                this.setState({categ:response.data.categoria});
-              }
-              else{
-                this.setState({categ:{nombre:"Sin Categoria"}});
-              }
-              console.log("veamos");
+              this.setState({categ:response.data.categoria});
+              console.log();
           })
-          .catch(error=>{
-            this.setState({loading:false, modalOpened:false, error:true, completed:false});
-            this.setState({categ:{nombre:"Sin Categoria"}});
-          })
-
+          .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
      }
 
     modalOpened2=()=>{
@@ -133,52 +123,29 @@ class Card extends Component{
             .catch(this.setState({modalOpened2:false, error:true}));
     }
     render(){
-        let moodNavidad;
         let x=(
             <div className="btnOptions">
                 <button className="botones" onClick={this.editarRegalo}>Editar</button>
                 <button className="botones" onClick={this.deleteRegalo}>Eliminar</button>
            </div>
         );
-
-        //10 am del 24 dic hasta 12 pm del 25
-        let navidad= new Date;
-        if ( navidad.getDate()==24 && navidad.getHours()>=10 && navidad.getMonth()==11){
-            if ( navidad.getDate()==25 && navidad.getHours()<=23 && navidad.getMonth()==11){
-                moodNavidad = (
-                    <div className="dots">
-                        <div className="dot"></div>
-                        <div className="dot"></div>
-                        <div className="dot"></div>
-                    </div>
-                );
-            }
-        }
-        else {
-            moodNavidad = (
-                <div className="dots" onClick={this.modalOpened}>
-                    <div className="dot"></div>
-                    <div className="dot"></div>
-                    <div className="dot"></div>
-                    <DotsOptions show={this.state.modalOpened} modalClosed={this.modalClosed}>
-                        {x}
-                    </DotsOptions>
-                </div>
-            );
-        }
-
         return(
             <div className="container" onClick={this.props.clicked}>
                 <img src={this.props.imagen} className="imag"></img>
                 <div className="theRest">
                     <p className="title">{this.props.name}</p>
-                    <p className="texts">{this.state.categ.nombre}</p>
+                    <p className="texts">{this.state.categ.nombre}</p>                    
                     <p className="texts">${this.props.precio}</p>
                 </div>
-                <div>
-                    {moodNavidad}
+                <div className="dots" onClick={this.modalOpened}>
+                    <div className="dot"></div>
+                    <div className="dot"></div>
+                    <div className="dot"></div>
+                    <DotsOptions show={this.state.modalOpened} modalClosed={this.modalClosed}>
+		                {x}
+		            </DotsOptions>
                 </div>
-                <Modal show={this.state.modalOpened2} modalClosed={this.modalClosed2}>
+        <Modal show={this.state.modalOpened2} modalClosed={this.modalClosed2}>
             <div>
             <p className="niño">Modificar Regalo</p>
                 <div>
