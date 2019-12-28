@@ -19,6 +19,7 @@ class Categoria extends Component{
         modalOpened2:false,
         loading:true,
         error:false,
+        
         completed:false,
         selectedPostId:null,
         empty:false,

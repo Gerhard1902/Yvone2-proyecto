@@ -3,8 +3,6 @@ import axios from 'axios';
 import Button from './../../UI/Button/Button';
 import Modal from '../../UI/Modal/Modal';
 import Equis from "../../../assets/x.png";
-import withErrorHandler from '../../withErrorHandler/withErrorHandler';
-
 import Image from './../../Image/Image';
 import Card from './../../Cards/Card';
 import { Link } from 'react-router-dom';
@@ -19,12 +17,11 @@ class FullPost extends Component {
         ninoEspecifico:[],
         indexx:0,
         posts:[],
-        empty:false,
         index:"",
         idid:"",
-        costo:0,
+        costo:0, 
         filtered:[],
-
+        
     }
 
     changeStatusHandler=()=>{
@@ -33,7 +30,6 @@ class FullPost extends Component {
     aleatorio=()=>{
         axios.get("https://api-mongod.herokuapp.com/regalos")
                 .then(response=>{
-                    try{
                     console.log(response);
         console.log(response.data.result.length);
         axios.post('https://api-mongod.herokuapp.com/ninosregalos',{idNino:this.props.match.params.id, idRegalo:response.data.result[(Math.floor(Math.random() * (response.data.result.length+1)))]._id})
@@ -43,10 +39,7 @@ class FullPost extends Component {
             }
             )
             .catch(this.setState({modalOpened:false, error:true}));
-    }
-    catch{this.setState({modalOpened:false, error:true})}
-}
-    ).catch(this.setState({modalOpened:false, error:true}));
+    }).catch(this.setState({modalOpened:false, error:true}));
 }
 
     changing=(event)=>{
@@ -57,28 +50,19 @@ class FullPost extends Component {
 
                 axios.get("https://api-mongod.herokuapp.com/ninos/"+this.props.match.params.id)
                 .then(response=>{
-                    try{
                 this.setState({loadedPost:response.data.nino});
-                    }
-                    catch{
-                        this.setState({modalOpened:false, error:true});
-                    }
 
             });
 
             axios.get("https://api-mongod.herokuapp.com/ninos/"+this.props.match.params.id)
             .then(response=>{
-                try{
               this.setState({loadedPost:response.data.nino});
               this.setState({status:response.data.nino.status})
-                }
-                catch{this.setState({modalOpened:false, error:true})}
             })
             .catch(e => console.log(e));
 
             axios.get("https://api-mongod.herokuapp.com/ninosregalos")
             .then(response=>{
-                try{
               this.setState({ninoRegalo:response.data.result, idid:response.data.result._id});
               console.log("array de los niños")
               console.log(this.state.ninoRegalo);
@@ -90,23 +74,17 @@ class FullPost extends Component {
               });
 
               this.setState({ninoEspecifico:ninoEsp});
-            }
-            catch{this.setState({modalOpened:false, error:true})}
 
             })
             .catch(e => console.log(e));
 
             axios.get('https://api-mongod.herokuapp.com/regalos')
-               .then(response=>{
-                   try{
-                   this.setState({
-                       posts:response.data.result,
-                  });
-                  console.log(response.data.result);
-                }
-                catch{ this.setState({modalOpened:false, error:true})}
-               })
-               .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
+         .then(response=>{
+             this.setState({
+                 posts:response.data.result,
+            });
+         })
+         .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
 
 
         }
@@ -143,7 +121,7 @@ class FullPost extends Component {
 
     deletePostHandler=()=>{
 
-
+        
         axios.delete('/posts/'+ this.props.id)
         .then(response=>{console.log(response)});
     }
@@ -183,14 +161,14 @@ class FullPost extends Component {
     check=(x, id)=> {
         if (x===id && this.props.match.params.id)
             return true;
-        else
+        else    
             return false;
       }
     clickHandler=(id)=>{
         let ninoEsp="";
         axios.get("https://api-mongod.herokuapp.com/ninosregalos")
             .then(response=>{
-
+                
                 console.log("sdfsdf");
               console.log(response);
               ninoEsp = response.data.result.filter( x => x.idNino === this.props.match.params.id )
@@ -204,24 +182,24 @@ class FullPost extends Component {
              .then(response=>{console.log(response);
                 window.location.reload(false)
     });
-
+              
     });
     console.log("fuera");
     console.log(ninoEsp);
  /*
-
+    
     axios.delete('https://api-mongod.herokuapp.com/ninosregalos/'+ ninoEsp[0]._id)
     .then(response=>{console.log(response);
         window.location.reload(false)
     });*/
 }
-
+   
     nombreRegalo=(x)=>{
       let valor = "";
       axios.get("https://api-mongod.herokuapp.com/regalos/"+x)
       .then(response=>{
         valor = response.data.regalo.nombre;
-
+       
         document.getElementById(this.state.indexx).innerHTML = valor;
         let v = this.state.indexx +1;
         this.setState({
@@ -245,36 +223,23 @@ class FullPost extends Component {
         </div>;
         
 
-        console.log("viendo los posts " + this.state.posts);
-        let carbon=this.state.posts.filter( x => x.nombre === "Carbon" )
-        console.log(carbon);
-
-        console.log(carbon.nombre);
         let op=this.state.posts.map(a=>{
             return <option value={a._id} >{a.nombre}</option>
         })
 
-        let posts;
+        const posts=
+        <select onChange={this.changing}>
+            {op}
+        </select>;
 
 
+
+      console.log(this.props.match.params.id);
         let y;
         if (this.state.status){
             y="bueno";
-            posts=
-            <select onChange={this.changing}>
-                {op}
-            </select>;
         }else{
-            y="malo";
-            let g = carbon.map(a=>{
-
-              return <option value={a._id} >{a.nombre}</option>
-            })
-            posts=
-            <select onChange={this.changing}>
-                <option value="0">Escoge categoria</option>
-                {g}
-            </select>;
+            y="malo"
         }
         let st;
         if (this.loadedPost){
@@ -299,7 +264,7 @@ class FullPost extends Component {
                                 <div>{this.nombreRegalo(x)}</div>
                         </td>
                         <td className=" Atd" onClick={()=>{this.clickHandler(x)}}>
-                           <img src={Equis}   className="icon"></img>
+                           <img src={Equis}   className="icon"></img>         
                        </td>
                    </tr>
         });
@@ -346,8 +311,8 @@ class FullPost extends Component {
                         </div>
                         {relleno}
                         </div>
-
-
+                       
+                        
                     </div>
 
                     <div>
@@ -373,4 +338,4 @@ class FullPost extends Component {
     }
 }
 
-export default withErrorHandler (FullPost, axios);
+export default FullPost;
