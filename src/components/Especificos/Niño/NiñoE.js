@@ -3,6 +3,8 @@ import axios from 'axios';
 import Button from './../../UI/Button/Button';
 import Modal from '../../UI/Modal/Modal';
 import Equis from "../../../assets/x.png";
+import withErrorHandler from '../../withErrorHandler/withErrorHandler';
+
 import Image from './../../Image/Image';
 import Card from './../../Cards/Card';
 import { Link } from 'react-router-dom';
@@ -17,6 +19,7 @@ class FullPost extends Component {
         ninoEspecifico:[],
         indexx:0,
         posts:[],
+        empty:false,
         index:"",
         idid:"",
         costo:0,
@@ -30,6 +33,7 @@ class FullPost extends Component {
     aleatorio=()=>{
         axios.get("https://api-mongod.herokuapp.com/regalos")
                 .then(response=>{
+                    try{
                     console.log(response);
         console.log(response.data.result.length);
         axios.post('https://api-mongod.herokuapp.com/ninosregalos',{idNino:this.props.match.params.id, idRegalo:response.data.result[(Math.floor(Math.random() * (response.data.result.length+1)))]._id})
@@ -39,7 +43,10 @@ class FullPost extends Component {
             }
             )
             .catch(this.setState({modalOpened:false, error:true}));
-    }).catch(this.setState({modalOpened:false, error:true}));
+    }
+    catch{this.setState({modalOpened:false, error:true})}
+}
+    ).catch(this.setState({modalOpened:false, error:true}));
 }
 
     changing=(event)=>{
@@ -50,19 +57,28 @@ class FullPost extends Component {
 
                 axios.get("https://api-mongod.herokuapp.com/ninos/"+this.props.match.params.id)
                 .then(response=>{
+                    try{
                 this.setState({loadedPost:response.data.nino});
+                    }
+                    catch{
+                        this.setState({modalOpened:false, error:true});
+                    }
 
             });
 
             axios.get("https://api-mongod.herokuapp.com/ninos/"+this.props.match.params.id)
             .then(response=>{
+                try{
               this.setState({loadedPost:response.data.nino});
               this.setState({status:response.data.nino.status})
+                }
+                catch{this.setState({modalOpened:false, error:true})}
             })
             .catch(e => console.log(e));
 
             axios.get("https://api-mongod.herokuapp.com/ninosregalos")
             .then(response=>{
+                try{
               this.setState({ninoRegalo:response.data.result, idid:response.data.result._id});
               console.log("array de los niños")
               console.log(this.state.ninoRegalo);
@@ -74,16 +90,21 @@ class FullPost extends Component {
               });
 
               this.setState({ninoEspecifico:ninoEsp});
+            }
+            catch{this.setState({modalOpened:false, error:true})}
 
             })
             .catch(e => console.log(e));
 
             axios.get('https://api-mongod.herokuapp.com/regalos')
                .then(response=>{
+                   try{
                    this.setState({
                        posts:response.data.result,
                   });
                   console.log(response.data.result);
+                }
+                catch{ this.setState({modalOpened:false, error:true})}
                })
                .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
 
@@ -352,4 +373,4 @@ class FullPost extends Component {
     }
 }
 
-export default FullPost;
+export default withErrorHandler (FullPost, axios);

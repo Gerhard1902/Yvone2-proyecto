@@ -7,16 +7,18 @@ import Button from '../UI/Button/Button';
 import axios from '../../axios-petition';
 import Spinner from '../UI/Spinner/Spinner';
 import './user.css';
+import withErrorHandler from '../withErrorHandler/withErrorHandler';
 import swal from 'sweetalert';
 
 class Usuarios extends Component{
     state={
         key:'',
         modalOpened:false,
-        loading:false,
+        loading:true,
         error:false,
         completed:false,
         selectedPostId:null,
+        empty:false,
         posts:[]
         ,
             nombre: "",
@@ -27,16 +29,25 @@ class Usuarios extends Component{
         postsBackup:[],
     }
     componentDidMount(){
+        this.setState({loading:true});
+
         axios.get('https://api-mongod.herokuapp.com/empleados')
          .then(response=>{
+             try{
              this.setState({
                 posts:response.data.result,
                 postsBackup:response.data.result,
                 key: response.data.result.nombre
             });
             console.log(this.state.posts);
+            this.setState({loading:true});
+        } catch{
+            this.setState({loading:false, modalOpened:false, error:true, completed:false,empty:true})
+        }
          })
-         .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
+         .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false, empty:true}));
+         this.setState({loading:false});
+
      }
 
     handleChange=(event)=>{
@@ -147,9 +158,13 @@ class Usuarios extends Component{
             return <Card link={a.fotoPerfil}
                     name={a.nombre}
         />});
-        return(
-            <div>
-                <Image link={Regalo} click={this.modalOpened}  text="Lista de usuarios"/>
+
+        let u=<Spinner/>;
+        if (this.state.empty){
+            u=<div>No hay elementos</div>;
+        }
+        if (this.state.loading){
+            u=(<div>
                 <input type="search" className="searchBar" placeholder="Buscar..." value={this.state.text} onChange={(text) => this.filter(text)}/>
                 <div className="otro">
                     {posts}
@@ -157,8 +172,16 @@ class Usuarios extends Component{
                 <Modal show={this.state.modalOpened} modalClosed={this.modalClosed}>
 				    {x}
 		    	</Modal>
+
+            </div>);
+        }
+
+        return(
+            <div>
+                <Image link={Regalo} click={this.modalOpened}  text="Lista de usuarios"/>
+                {u}
            </div>
         );
     }
 }
-export default Usuarios;
+export default  withErrorHandler(Usuarios, axios);

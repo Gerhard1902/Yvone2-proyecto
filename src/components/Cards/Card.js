@@ -3,6 +3,8 @@ import DotsOptions from '../UI/DotsOptions/DotsOptions';
 import Modal from '../UI/Modal/Modal';
 import Button from '../UI/Button/Button';
 import axios from '../../axios-petition';
+import withErrorHandler from '../withErrorHandler/withErrorHandler';
+
 import './Card.css';
 
 class Card extends Component{
@@ -27,8 +29,11 @@ class Card extends Component{
     componentDidMount(){
          axios.get('https://api-mongod.herokuapp.com/categorias/'+this.props.categoria)
           .then(response=>{
+              try{
               this.setState({categ:response.data.categoria});
               console.log();
+            }
+            catch {this.setState({loading:false, modalOpened:false, error:true, completed:false})}
           })
           .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
      }
@@ -90,6 +95,7 @@ class Card extends Component{
         this.setState({modalOpened2:true});
         axios.get('https://api-mongod.herokuapp.com/regalos/'+this.props.id)
             .then(response=>{
+                try{
                this.setState(
                     {
                         nombre:response.data.regalo.nombre,
@@ -98,6 +104,10 @@ class Card extends Component{
                         categoria:response.data.regalo.categoria,
                     });
                     console.log(response);
+                }
+                catch{
+                    this.setState({loading:false, modalOpened:false, error:true, completed:false});
+                }
             })
             .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
 
@@ -178,4 +188,4 @@ class Card extends Component{
     }
 }
 
-export default Card;
+export default withErrorHandler (Card, axios);

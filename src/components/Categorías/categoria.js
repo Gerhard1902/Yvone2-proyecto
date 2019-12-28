@@ -21,6 +21,7 @@ class Categoria extends Component{
         error:false,
         completed:false,
         selectedPostId:null,
+        empty:false,
         posts:[]
         ,
             nombre: "",
@@ -40,12 +41,10 @@ class Categoria extends Component{
          })
          .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false, empty:true}));
          this.setState({loading:false});
-         console.log(this.state.posts);
      }
 
     modalOpened=()=>{
         this.setState({modalOpened:true});
-        console.log("reached");
   	}
 
   	modalClosed=()=>{

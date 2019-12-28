@@ -14,12 +14,13 @@ import swal from 'sweetalert';
 class Niño extends Component{
     state={
         modalOpened:false,
-        loading:false,
+        loading:true,
         error:false,
         completed:false,
         selectedPostId:null,
         posts:[]
         ,
+        empty:false,
             nombre: "",
             status:false,
             calle:"",
@@ -35,21 +36,26 @@ class Niño extends Component{
 
 
     componentDidMount(){
+        this.setState({loading:true});
+
        axios.get('https://api-mongod.herokuapp.com/ninos')
         .then(response=>{
+            try{
             this.setState({
                 posts:response.data.result,
                 postsBackup:response.data.result,
                 key: response.data.result.nombre
             });
-            console.log(response.data);
-            console.log("el estado");
-            console.log(this.state.posts);
-            console.log(this.state.posts.result);
+            this.setState({loading:true});
+        }
+        catch{
+            this.setState({loading:false, modalOpened:false, error:true, completed:false, empty:true})
+        }
 
         })
-        .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
+        .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false, empty:true}));
         console.log(this.state.posts);
+        this.setState({loading:false});
 
     }
 
@@ -279,10 +285,12 @@ class Niño extends Component{
                          status={a.status}
         />});
 
-
-        return(
-            <div>
-                <Image link={Regalo} click={this.modalOpened} text="Lista de niños buenos y malos" />
+        let u=<Spinner/>;
+        if (this.state.empty){
+            u=<div>No hay elementos</div>;
+        }
+        if (this.state.loading){
+            u=(<div>
                 <input type="search" className="searchBar" placeholder="Buscar..." value={this.state.text} onChange={(text) => this.filter(text)}/>
                 <div className="otro">
                     {posts}
@@ -296,6 +304,12 @@ class Niño extends Component{
                         Petition completed!
                     </div>
 		    	</Modal>
+            </div>);
+        }
+        return(
+            <div>
+                <Image link={Regalo} click={this.modalOpened} text="Lista de niños buenos y malos" />
+                {u}
             </div>
 
         );

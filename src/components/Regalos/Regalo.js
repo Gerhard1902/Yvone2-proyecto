@@ -18,12 +18,13 @@ class Regalo2 extends Component{
         error:false,
         completed:false,
         selectedPostId:null,
+        empty: false,
         categ:[],
         posts:[],
             nombre:"",
             costo:"",
             urlImagen:"",
-            categoria:"",
+            categoria: "5dd6e5409acbd4001732e558",
         textBuscar:'',
         postsBackup:[],
     }
@@ -38,10 +39,11 @@ class Regalo2 extends Component{
                  key: response.data.result.nombre,
                  loading:false
             });
-        }
-        catch{(this.setState({loading:false, modalOpened:false, error:true, completed:false}))}
+            this.setState({loading:true});
+        } 
+        catch{(this.setState({loading:false, modalOpened:false, error:true, completed:false, empty:true}))}
          })
-         .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
+         .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false, empty:true}));
 
          axios.get('https://api-mongod.herokuapp.com/categorias')
           .then(
@@ -51,11 +53,13 @@ class Regalo2 extends Component{
               this.setState({categ:response.data.result, loading:false});
                 }
                 catch{
-                this.setState({loading:false, modalOpened:false, error:true, completed:false})}
+                this.setState({loading:false, modalOpened:false, error:true, completed:false, empty:true})}
           }
          
           )
-          .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false}));
+          .catch(this.setState({loading:false, modalOpened:false, error:true, completed:false, empty:true}));
+          this.setState({loading:false});
+
      }
 
      submitHandler=()=>{
@@ -168,17 +172,25 @@ class Regalo2 extends Component{
                         lol={this.state.categ}
                         id={a._id}
         />});
+        let u;
+        if (this.state.posts==false){
+            u=<div>No hay elementos</div>;
+        }
 
         return(
             <div>
         <Image link={Regalo} text="Catálogo de regalos" click={this.modalOpened} click2={this.ContinueHandler} button="Categorías"/>
-        <input type="search" className="searchBar" placeholder="Buscar..." value={this.state.text} onChange={(text) => this.filter(text)}/>
-        <div className="otro">
-             {posts}
-           </div>
-        <Modal show={this.state.modalOpened} modalClosed={this.modalClosed}>
-		    {x}
-		</Modal>
+        
+        <div>
+            <input type="search" className="searchBar" placeholder="Buscar..." value={this.state.text} onChange={(text) => this.filter(text)}/>
+            <div className="otro">
+                 {posts}
+               </div>
+            <Modal show={this.state.modalOpened} modalClosed={this.modalClosed}>
+                {x}
+            </Modal>
+            </div>
+            {u}
     </div>
         );
     }
